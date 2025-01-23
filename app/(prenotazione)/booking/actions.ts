@@ -1,5 +1,3 @@
-"use server";
-
 import {fromZonedTime, toZonedTime} from "date-fns-tz";
 import {add, format, formatISO, isAfter, isBefore, parse} from "date-fns";
 import {google} from "googleapis";
