@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
     if (!isServer) {
       config.resolve.fallback = {
         fs: false,
+        child_process: false,
+        tls: false
       };
     }
 
