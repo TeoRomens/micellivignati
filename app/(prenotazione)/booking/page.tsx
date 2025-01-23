@@ -16,6 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import * as RPNInput from "react-phone-number-input"
 import flags from "react-phone-number-input/flags"
 import { cn } from "@/lib/utils"
+import {redirect} from "next/navigation";
 
 export default function ClientForm() {
   const id = useId()
@@ -85,7 +86,15 @@ export default function ClientForm() {
     }
   }
 
-  const handlePrevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1))
+  const handlePrevStep = () => {
+    if(currentStep == 5) {
+      redirect("./")
+      return
+    }
+    if(!isLoading){
+      setCurrentStep((prev) => Math.max(prev - 1, 1))
+    }
+  }
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
