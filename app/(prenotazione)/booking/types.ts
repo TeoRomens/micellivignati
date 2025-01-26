@@ -1,20 +1,18 @@
 import {Brush, Eraser, Scissors, SwatchBook} from "lucide-react";
 
-export type Prenotazioni = {
-  ora_inizio: string;
-  durata: string;
+export type Appuntamento = {
+  start: string;
+  end: string;
+  duration: number;
 }[];
 
-// Aggiungere ogni nuovo id al form
 export const servizi = [
   { id: "1", nome: "Taglio Uomo", durata: 60, Icon: Scissors },
   { id: "2", nome: "Taglio Donna", durata: 60, Icon: Scissors },
-  { id: "3", nome: "Eraser", durata: 60, Icon: Eraser },
-  { id: "4", nome: "Cut", durata: 60, Icon: Scissors },
-  { id: "5", nome: "Palette", durata: 60, Icon: SwatchBook },
-  { id: "6", nome: "Brush", durata: 60, Icon: Brush },
-  { id: "7", nome: "Eraser 2", durata: 60, Icon: Eraser },
-  { id: "8", nome: "Cut 2", durata: 60, Icon: Scissors },
+  { id: "3", nome: "Piega", durata: 60, Icon: Eraser },
+  { id: "4", nome: "Colore", durata: 60, Icon: Scissors },
+  { id: "5", nome: "Tinta", durata: 60, Icon: SwatchBook },
+  { id: "6", nome: "Colpi di sole", durata: 60, Icon: Brush },
 ];
 
 export const timeSlots = [

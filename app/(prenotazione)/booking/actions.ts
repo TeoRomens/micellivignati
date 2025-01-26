@@ -1,46 +1,17 @@
-import {fromZonedTime, toZonedTime} from "date-fns-tz";
-import {add, format, formatISO, isAfter, isBefore, parse} from "date-fns";
-import {google} from "googleapis";
-import {calendar_v3} from "@googleapis/calendar";
-import {revalidatePath} from "next/cache";
-import {servizi} from "./types";
+"use server"
 
-const SCOPES = [
-  "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events",
-];
-
-const calendarId = process.env.CALENDAR_ID;
-
-const initGoogleCalendar = async () => {
-  try {
-    const credentials = {
-      client_id: process.env.GOOGLE_CLIENT_ID,
-      client_email: process.env.GOOGLE_CLIENT_EMAIL,
-      project_id: process.env.GOOGLE_PROJECT_ID,
-      private_key: process.env.GOOGLE_PRIVATE_KEY,
-    };
-    const auth = new google.auth.GoogleAuth({
-      credentials: credentials,
-      scopes: SCOPES,
-    });
-
-    const calendar = google.calendar({version: "v3", auth});
-
-    console.log("Google Calendar API initialized:");
-    return calendar;
-  } catch (error) {
-    console.error("Error initializing Google Calendar API:", error);
-  }
-};
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
+import {add, endOfDay, format, isAfter, isBefore, startOfDay} from "date-fns";
+import { servizi } from "./types";
+import { createClient } from "@/utils/supabase/server";
 
 const generateSlots = (startTime: Date, endTime: Date, interval: number) => {
   const slots = [];
   let currentTime = startTime;
 
   while (isBefore(currentTime, endTime) || currentTime.getTime() === endTime.getTime()) {
-    slots.push(format(currentTime, 'HH:mm'));
-    currentTime = add(currentTime, {minutes: interval});
+    slots.push(format(currentTime, "HH:mm"));
+    currentTime = add(currentTime, { minutes: interval });
   }
 
   return slots;
@@ -52,8 +23,8 @@ const availableSlots = generateSlots(
     15 // Interval: 15 minutes
 );
 
-export const buildDateSlots = async (date: Date) => {
-  return availableSlots.map(slot => {
+const buildDateSlots = async (date: Date) => {
+  return availableSlots.map((slot) => {
     const cetDateTime = new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -61,33 +32,39 @@ export const buildDateSlots = async (date: Date) => {
         +slot.slice(0, 2),
         +slot.slice(3, 5)
     );
-    return fromZonedTime(cetDateTime, 'Europe/Paris');
+    return fromZonedTime(cetDateTime, "Europe/Paris");
   });
 };
 
-export const getAvailableSlots = async (date: string) => {
-  const calendar = await initGoogleCalendar();
+export const getAvailableSlots = async (date: Date) => {
+  const supabase = await createClient();
 
-  const dayDate = parse(date, 'yyyyMMdd', new Date());
-  const response = await calendar?.events.list({
-    calendarId: calendarId,
-    eventTypes: ["default"],
-    timeMin: dayDate.toISOString(),
-    timeMax: add(dayDate, {days: 1}).toISOString(),
-    singleEvents: true,
-    orderBy: 'startTime',
-  });
+  // Define the start and end of the current day
+  const startOfCurrentDay = startOfDay(date);
+  const endOfCurrentDay = endOfDay(date);
 
-  const events = response?.data?.items || [];
-  const dateSlots = await buildDateSlots(dayDate);
+  // Fetch data from the booking table for the current day
+  const { data, error } = await supabase
+      .from("booking")
+      .select("start, end")
+      .gte("start", startOfCurrentDay.toISOString())
+      .lte("start", endOfCurrentDay.toISOString());
 
-  const availableSlots = dateSlots.filter(slot => {
-    const slotEnd = add(slot, {minutes: 15});
+  if (error) {
+    console.error("Error fetching bookings:", error);
+    return [];
+  }
 
-    // Check if this slot conflicts with any existing event
-    const hasConflict = events.some((event: calendar_v3.Schema$Event) => {
-      const eventStart = new Date(event.start?.dateTime || '');
-      const eventEnd = new Date(event.end?.dateTime || '');
+  console.log("Fetched bookings:", data);
+
+  const dateSlots = await buildDateSlots(date);
+
+  const availableSlots = dateSlots.filter((slot) => {
+    const slotEnd = add(slot, { minutes: 15 });
+
+    const hasConflict = data?.some((event) => {
+      const eventStart = new Date(event.start);
+      const eventEnd = new Date(event.end);
       return isBefore(slot, eventEnd) && isAfter(slotEnd, eventStart);
     });
 
@@ -95,66 +72,49 @@ export const getAvailableSlots = async (date: string) => {
   });
 
   // Convert available Date objects to string time slots
-  return availableSlots.map(slot => {
-    return format(toZonedTime(slot, 'Europe/Paris'), 'HH:mm');
+  return availableSlots.map((slot) => {
+    return format(toZonedTime(slot, "Europe/Paris"), "HH:mm");
   });
 };
 
 export const createEvent = async (
     data: {
-      serviceId: string
-      date: Date
-      time: string
-      nome: string
-      cognome: string
-      email: string
-      telefono: string
+      serviceId: string;
+      date: Date;
+      time: string;
+      name: string;
+      surname: string;
+      email: string;
+      phone: string;
     }
 ) => {
-  console.log("createEvent")
+  console.log("createEvent");
 
-  const calendar = await initGoogleCalendar();
+  const supabase = await createClient()
 
-  const service = servizi.find(service => service.id === data.serviceId)!
+  const service = servizi.find((service) => service.id === data.serviceId);
+  if (!service) throw new Error("Service not found");
 
-  // Parse the date and time in UTC timezone
   const [hours, minutes] = data.time.split(":").map(Number);
-  data.date.setHours(hours, minutes);
-  const utcDate = fromZonedTime(data.date, 'Europe/Paris');
+  const start = data.date;
+  start.setHours(hours, minutes)
+  const end = add(start, {minutes: service.durata});
 
-  // Convert date to UTC
-  const startDateTime = new Date(utcDate.toUTCString());
-  const endDateTime = add(startDateTime, {minutes: service.durata});
+  const { error } = await supabase.from("booking").insert({
+    service: service.nome,
+    start: start.toISOString(),
+    end: end.toISOString(),
+    name: data.name,
+    surname: data.surname,
+    email: data.email,
+    phone: data.phone,
+  });
 
-  console.log(startDateTime)
-
-  const event = {
-    summary: `${service.nome} - ${data.nome} ${data.cognome}`,
-    description: `${data.email} \n ${data.telefono}`,
-    start: {
-      dateTime: formatISO(startDateTime),
-      timeZone: "UTC",
-    },
-    end: {
-      dateTime: formatISO(endDateTime),
-      timeZone: "UTC",
-    },
-  };
-
-  const response = await calendar?.events.insert({
-    calendarId: calendarId,
-    requestBody: event,
-    sendUpdates: "all"
-  })
-
-  if (response?.data) {
-    if (response.status !== 200) {
-      console.log("Failed to insert event");
-    }
-  } else {
-    console.log("Failed to insert event: Calendar not initialized");
+  if (error) {
+    console.error("Error inserting data into database:", error);
+    throw new Error("Failed to insert event into the database");
   }
 
-  revalidatePath("/");
-  return {status: response?.status};
+  console.log("Event successfully inserted into the database");
+  return 200
 };

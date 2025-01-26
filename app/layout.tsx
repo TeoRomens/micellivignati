@@ -1,8 +1,7 @@
 import Header from "@/components/header";
 import {ThemeProvider} from "@/components/theme-provider";
 import type {Metadata, Viewport} from "next";
-import {Figtree, Inter as FontSans} from "next/font/google";
-import Script from "next/script";
+import {Inter as FontSans} from "next/font/google";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -14,7 +13,10 @@ export const metadata: Metadata = {
   title: "Acconciature Micelli e Vignati",
 };
 
-const FigTree = Figtree({ weight: "variable", subsets: ['latin'] })
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const viewport: Viewport = {
   initialScale: 1,
@@ -29,11 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en" suppressHydrationWarning>
-      <body className={`${FigTree.className} bg-background font-sans antialiased`}>
+      <html lang="it" suppressHydrationWarning>
+      <body className={`${fontSans.variable} bg-background font-sans antialiased`}>
       <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
       >

@@ -123,7 +123,7 @@ export default async function Home() {
 
         <footer className="px-4 bg-gradient-to-br from-purple-500 to-purple-950">
           <div className="my-16 max-w-3xl mx-auto">
-            <SubscribeBottom/>
+
           </div>
         </footer>
       </>
