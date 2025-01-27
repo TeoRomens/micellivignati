@@ -36,7 +36,6 @@ export const NewBookingEmail = ({
                                 }: NewBookingEmailProps) => {
   const formattedStart = format(new Date(start), 'dd/MM/yyyy HH:mm')
   const formattedEnd = format(new Date(end), 'dd/MM/yyyy HH:mm')
-  console.log('icsFileUrl:', icsFileUrl)
 
   return (
       <Html>

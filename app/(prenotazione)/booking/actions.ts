@@ -161,9 +161,7 @@ export const createEvent = async (
     console.error('Error uploading ICS to Supabase:', uploadError);
     return null;
   }
-
-  const { publicUrl } = supabase.storage.from('bookings').getPublicUrl(`booking_${booking.id}.ics`);
-  console.log('ICS file uploaded:', publicUrl);
+  console.log('ICS file uploaded');
 
   fs.unlinkSync(filePath);
 
