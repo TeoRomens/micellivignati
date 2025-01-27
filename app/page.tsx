@@ -3,7 +3,7 @@ import {cn} from "@/lib/utils";
 import {ArrowDown, Scissors, Sparkles} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import Header from "@/components/header";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Backround1 from "@/public/background-1.jpg";
 
 const Nautigal = The_Nautigal({weight: ["400", "700"], subsets: ["latin"]});
