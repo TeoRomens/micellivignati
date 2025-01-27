@@ -125,6 +125,7 @@ export const createEvent = async (
 
   if (error) {
     console.error("Error inserting data into database:", error);
+    return status;
   }
 
   console.log("Event successfully inserted into the database");
@@ -142,7 +143,7 @@ export const createEvent = async (
   const { error: icsError, value } = ical.createEvent(event);
   if (icsError) {
     console.error('Error generating ICS event:', icsError);
-    return null;
+    return status;
   }
 
   const filePath = `/tmp/booking_${booking.id}.ics`;
@@ -159,7 +160,7 @@ export const createEvent = async (
 
   if (uploadError) {
     console.error('Error uploading ICS to Supabase:', uploadError);
-    return null;
+    return status;
   }
   console.log('ICS file uploaded');
 
