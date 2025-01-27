@@ -1,9 +1,7 @@
-import Header from "@/components/header";
 import {ThemeProvider} from "@/components/theme-provider";
 import type {Metadata, Viewport} from "next";
 import {Inter as FontSans} from "next/font/google";
 import "./globals.css";
-import ScrollContext from "@/utils/lenis";
 
 const defaultUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
@@ -40,12 +38,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
       >
-        <ScrollContext>
           <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
             {children}
           </div>
-        </ScrollContext>
-
       </ThemeProvider>
       </body>
       </html>

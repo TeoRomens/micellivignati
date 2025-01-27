@@ -36,8 +36,11 @@ const buildDateSlots = async (date: Date) => {
   });
 };
 
-export const getAvailableSlots = async (date: Date) => {
+export const getAvailableSlots = async (date: Date, serviceId: string) => {
   const supabase = await createClient();
+
+  const service = servizi.find((service) => service.id === serviceId);
+  if (!service) throw new Error("Service not found");
 
   // Define the start and end of the current day
   const startOfCurrentDay = startOfDay(date);
@@ -60,15 +63,26 @@ export const getAvailableSlots = async (date: Date) => {
   const dateSlots = await buildDateSlots(date);
 
   const availableSlots = dateSlots.filter((slot) => {
-    const slotEnd = add(slot, { minutes: 15 });
+    const slotEnd = add(slot, { minutes: 15 }); // Adjust slot end by 15 minutes
 
+    // Check if the slot is in conflict with any existing booking
     const hasConflict = data?.some((event) => {
       const eventStart = new Date(event.start);
       const eventEnd = new Date(event.end);
       return isBefore(slot, eventEnd) && isAfter(slotEnd, eventStart);
     });
 
-    return !hasConflict;
+    // Now check if the slot plus the service duration conflicts with any existing booking
+    const slotWithServiceEnd = add(slot, { minutes: service.durata });
+    const hasConflictWithServiceDuration = data?.some((event) => {
+      const eventStart = new Date(event.start);
+      const eventEnd = new Date(event.end);
+
+      // Exclude slots that would end inside an existing event
+      return isBefore(slotWithServiceEnd, eventEnd) && isAfter(slotWithServiceEnd, eventStart);
+    });
+
+    return !hasConflict && !hasConflictWithServiceDuration;
   });
 
   // Convert available Date objects to string time slots
@@ -100,7 +114,7 @@ export const createEvent = async (
   start.setHours(hours, minutes)
   const end = add(start, {minutes: service.durata});
 
-  const { error } = await supabase.from("booking").insert({
+  const { error, status } = await supabase.from("booking").insert({
     service: service.nome,
     start: start.toISOString(),
     end: end.toISOString(),
@@ -112,9 +126,9 @@ export const createEvent = async (
 
   if (error) {
     console.error("Error inserting data into database:", error);
-    throw new Error("Failed to insert event into the database");
   }
 
   console.log("Event successfully inserted into the database");
-  return 200
+  console.log(status);
+  return status
 };

@@ -356,7 +356,7 @@ export default async function Home() {
         </section>
 
 
-        <footer className="bg-purple-400/80 shadow-sm dark:bg-gray-800">
+        <footer className="bg-purple-400/80 dark:bg-gray-800">
           <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
       <span className="text-sm text-primary-foreground sm:text-center dark:text-gray-400">© 2025 <a
           href="#"

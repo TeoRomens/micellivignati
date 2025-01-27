@@ -47,7 +47,7 @@ export default function BookingForm() {
         setSelectedTime(undefined)
         setIsLoading(true)
         try {
-          const availableSlots = await getAvailableSlots(date)
+          const availableSlots = await getAvailableSlots(date, serviceId!)
           setAvailableSlots(availableSlots)
         } catch (error) {
           console.error(error)
@@ -406,8 +406,8 @@ export default function BookingForm() {
                     exit={{opacity: 0}}
                     transition={{duration: 0.2}}
                 >
-                  {responseCode === 200 && (
-                      <>
+                  {responseCode === 201 && (
+                      <div className="space-y-2">
                         <CircleCheck
                             className="-mt-0.5 me-3 inline-flex text-emerald-500"
                             size={48}
@@ -420,10 +420,31 @@ export default function BookingForm() {
                         <p className="text-sm text-muted-foreground">
                           Salva questa schermata per ricordarti o aggiungila al calendario!
                         </p>
-                      </>
+                        <div
+                            className="relative flex w-full items-start gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
+                          <div className="flex grow items-start gap-3">
+                            <div className="grid gap-2">
+                              <Label htmlFor={id}>{servizi.find((service) => service.id === serviceId)?.nome}</Label>
+                              <p id={`${id}-description`} className="text-xs text-muted-foreground">
+                                Data e Orario
+                              </p>
+                              <Label htmlFor={id}>{selectedDate && format(selectedDate, "dd/MM/yyyy")}</Label>
+                              <Label htmlFor={id}>{selectedTime}</Label>
+                              <p id={`${id}-description`} className="text-xs text-muted-foreground">
+                                Dati Cliente
+                              </p>
+                              <Label htmlFor={id}>
+                                {name} {surname}
+                              </Label>
+                              <Label htmlFor={id}>{phone}</Label>
+                              <Label htmlFor={id}>{email}</Label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                   )}
-                  {responseCode !== 200 && (
-                      <>
+                  {responseCode !== 201 && (
+                      <div className="space-y-2">
                         <CircleX
                             className="-mt-0.5 me-3 inline-flex text-red-500"
                             size={48}
@@ -436,7 +457,7 @@ export default function BookingForm() {
                         <p className="text-sm text-muted-foreground">
                           Si prega di telefonare il negozio per prenotare un appuntamento.
                         </p>
-                      </>
+                      </div>
                   )}
                 </motion.div>
             )}
