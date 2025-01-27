@@ -457,8 +457,8 @@ export default function BookingForm() {
                                   const service = servizi.find((service) => service.id === serviceId);
                                   if (!service) throw new Error("Service not found");
 
-                                  const [hours, minutes] = selectedTime.split(":").map(Number);
-                                  const start = selectedDate;
+                                  const [hours, minutes] = selectedTime!.split(":").map(Number);
+                                  const start = selectedDate!;
                                   start.setHours(hours, minutes)
                                   const end = add(start, {minutes: service.durata});
 

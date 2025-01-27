@@ -63,35 +63,32 @@ export const getAvailableSlots = async (date: Date, serviceId: string) => {
 
   const dateSlots = await buildDateSlots(date);
 
-  const isSaturday = date.getDay() === 6; // Check if the day is Saturday (6 = Saturday)
+  // Salon closing time (example: 6:30 PM)
+  const closingTime = new Date(date);
+  closingTime.setHours(18, 30, 0, 0);
 
   const availableSlots = dateSlots.filter((slot) => {
-    const slotEnd = add(slot, { minutes: 15 }); // Adjust slot end by 15 minutes
+    const slotEnd = add(slot, { minutes: service.durata });
 
-    // Check if the slot is in conflict with any existing booking
-    const conflictingBookings = data?.filter((event) => {
-      const eventStart = new Date(event.start);
-      const eventEnd = new Date(event.end);
-      return isBefore(slot, eventEnd) && isAfter(slotEnd, eventStart);
-    });
-
-    const slotWithServiceEnd = add(slot, { minutes: service.durata });
-    const conflictsWithServiceDuration = data?.filter((event) => {
-      const eventStart = new Date(event.start);
-      const eventEnd = new Date(event.end);
-      return isBefore(slotWithServiceEnd, eventEnd) && isAfter(slotWithServiceEnd, eventStart);
-    });
-
-    // For Saturdays, allow up to two overlapping events
-    if (isSaturday) {
-      return (
-          (conflictingBookings?.length ?? 0) < 2 &&
-          (conflictsWithServiceDuration?.length ?? 0) < 2
-      );
+    // Skip slots that end after the salon's closing time
+    if (isAfter(slotEnd, closingTime)) {
+      return false;
     }
 
-    // For other days, no conflicts are allowed
-    return (conflictingBookings?.length ?? 0) === 0 && (conflictsWithServiceDuration?.length ?? 0) === 0;
+    // Check if the slot overlaps with any existing booking
+    const hasConflict = data?.some((booking) => {
+      const bookingStart = new Date(booking.start);
+      const bookingEnd = new Date(booking.end);
+
+      // Conflict occurs if the new slot overlaps with an existing booking
+      return (
+          (isBefore(slot, bookingEnd) && isAfter(slot, bookingStart)) || // Slot starts during an existing booking
+          (isBefore(slotEnd, bookingEnd) && isAfter(slotEnd, bookingStart)) || // Slot ends during an existing booking
+          (isBefore(bookingStart, slotEnd) && isAfter(bookingEnd, slot)) // Slot fully overlaps with an existing booking
+      );
+    });
+
+    return !hasConflict;
   });
 
   // Convert available Date objects to string time slots
