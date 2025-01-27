@@ -4,6 +4,7 @@ import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import {add, endOfDay, format, isAfter, isBefore, startOfDay} from "date-fns";
 import { servizi } from "./types";
 import { createClient } from "@/utils/supabase/server";
+import * as fs from "fs";
 
 const generateSlots = (startTime: Date, endTime: Date, interval: number) => {
   const slots = [];
@@ -102,8 +103,6 @@ export const createEvent = async (
       phone: string;
     }
 ) => {
-  console.log("createEvent");
-
   const supabase = await createClient()
 
   const service = servizi.find((service) => service.id === data.serviceId);
@@ -114,7 +113,7 @@ export const createEvent = async (
   start.setHours(hours, minutes)
   const end = add(start, {minutes: service.durata});
 
-  const { error, status } = await supabase.from("booking").insert({
+  const { data: booking, error, status } = await supabase.from("booking").insert({
     service: service.nome,
     start: start.toISOString(),
     end: end.toISOString(),
@@ -122,13 +121,62 @@ export const createEvent = async (
     surname: data.surname,
     email: data.email,
     phone: data.phone,
-  });
+  }).select().single();
 
   if (error) {
     console.error("Error inserting data into database:", error);
   }
 
   console.log("Event successfully inserted into the database");
-  console.log(status);
+
+  const ical = require('ics');
+  const event = {
+    start: formatDateToICS(start),
+    startInputType: 'utc',
+    end: formatDateToICS(end),
+    endInputType: 'utc',
+    title: `${service.nome} - ${data.name} ${data.surname}`,
+    description: `Prenotazione effettuata via web da ${data.name} ${data.surname} \n${data.email}\n${data.phone}`,
+    status: 'CONFIRMED',
+  };
+  const { error: icsError, value } = ical.createEvent(event);
+  if (icsError) {
+    console.error('Error generating ICS event:', icsError);
+    return null;
+  }
+
+  const filePath = `/tmp/booking_${booking.id}.ics`;
+  fs.writeFileSync(filePath, value);
+
+  // Upload the file to Supabase Storage
+  const file = fs.readFileSync(filePath);
+  const { error: uploadError } = await supabase.storage
+      .from('bookings')
+      .upload(`booking_${booking.id}.ics`, file, {
+        contentType: 'text/calendar',
+        cacheControl: '3600',
+      });
+
+  if (uploadError) {
+    console.error('Error uploading ICS to Supabase:', uploadError);
+    return null;
+  }
+
+  const { publicUrl } = supabase.storage.from('bookings').getPublicUrl(`booking_${booking.id}.ics`);
+  console.log('ICS file uploaded:', publicUrl);
+
+  fs.unlinkSync(filePath);
+
   return status
+};
+
+const formatDateToICS = (date: Date): string => {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, '0');
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+  return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
 };

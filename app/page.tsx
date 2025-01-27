@@ -130,9 +130,8 @@ export default async function Home() {
                 I Nostri Servizi
               </h2>
               <p className="max-w-lg mx-auto text-gray-600">
-                Nulla egestas sapien integer mi fermentum tellus tristique consequat pulvinar
-                sagittis adipiscing egestas purus et mi tempus semper id vel prci eu magna in
-                senectus sit eget justo eget.
+                Trasforma il tuo look con stile: scopri i nostri servizi di acconciatura su misura, dove creatività e
+                professionalità si incontrano per valorizzare la tua bellezza unica.
               </p>
             </div>
 
@@ -349,7 +348,8 @@ export default async function Home() {
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   Simonetta Micelli
                 </h3>
-                <p>Specializzata in tagli di precisione e acconciature personalizzate, Simonetta combina tecnica e creatività.</p>
+                <p>Specializzata in tagli di precisione e acconciature personalizzate, Simonetta combina tecnica e
+                  creatività.</p>
               </div>
             </div>
           </div>
