@@ -68,14 +68,19 @@ export default async function Home() {
                 dettagli.
               </p>
               <div className="space-y-4 pt-4 max-w-sm mx-auto">
-                <Button variant={"outline"}>
-                  Prenota un appuntamento
-                  <Sparkles
-                      className="-me-1 ms-2 opacity-60"
-                      size={16}
-                      strokeWidth={2}
-                      aria-hidden="true"
-                  />
+                <Button variant={"outline"} asChild>
+                  <a
+                      href="./booking"
+                      target="_blank"
+                  >
+                    Prenota un appuntamento
+                    <Sparkles
+                        className="-me-1 ms-2 opacity-60"
+                        size={16}
+                        strokeWidth={2}
+                        aria-hidden="true"
+                    />
+                  </a>
                 </Button>
                 <Button variant="outline">
                   Esplora i servizi
@@ -274,14 +279,19 @@ export default async function Home() {
           </div>
 
           <div className="space-y-4 pt-16 max-w-sm mx-auto">
-            <Button variant={"outline"}>
-              Prenota un appuntamento
-              <Sparkles
-                  className="-me-1 ms-2 opacity-60"
-                  size={16}
-                  strokeWidth={2}
-                  aria-hidden="true"
-              />
+            <Button variant={"outline"} asChild>
+              <a
+                  href="./booking"
+                  target="_blank"
+              >
+                Prenota un appuntamento
+                <Sparkles
+                    className="-me-1 ms-2 opacity-60"
+                    size={16}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                />
+              </a>
             </Button>
           </div>
         </div>
