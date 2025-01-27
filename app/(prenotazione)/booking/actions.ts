@@ -63,27 +63,35 @@ export const getAvailableSlots = async (date: Date, serviceId: string) => {
 
   const dateSlots = await buildDateSlots(date);
 
+  const isSaturday = date.getDay() === 6; // Check if the day is Saturday (6 = Saturday)
+
   const availableSlots = dateSlots.filter((slot) => {
     const slotEnd = add(slot, { minutes: 15 }); // Adjust slot end by 15 minutes
 
     // Check if the slot is in conflict with any existing booking
-    const hasConflict = data?.some((event) => {
+    const conflictingBookings = data?.filter((event) => {
       const eventStart = new Date(event.start);
       const eventEnd = new Date(event.end);
       return isBefore(slot, eventEnd) && isAfter(slotEnd, eventStart);
     });
 
-    // Now check if the slot plus the service duration conflicts with any existing booking
     const slotWithServiceEnd = add(slot, { minutes: service.durata });
-    const hasConflictWithServiceDuration = data?.some((event) => {
+    const conflictsWithServiceDuration = data?.filter((event) => {
       const eventStart = new Date(event.start);
       const eventEnd = new Date(event.end);
-
-      // Exclude slots that would end inside an existing event
       return isBefore(slotWithServiceEnd, eventEnd) && isAfter(slotWithServiceEnd, eventStart);
     });
 
-    return !hasConflict && !hasConflictWithServiceDuration;
+    // For Saturdays, allow up to two overlapping events
+    if (isSaturday) {
+      return (
+          (conflictingBookings?.length ?? 0) < 2 &&
+          (conflictsWithServiceDuration?.length ?? 0) < 2
+      );
+    }
+
+    // For other days, no conflicts are allowed
+    return (conflictingBookings?.length ?? 0) === 0 && (conflictsWithServiceDuration?.length ?? 0) === 0;
   });
 
   // Convert available Date objects to string time slots

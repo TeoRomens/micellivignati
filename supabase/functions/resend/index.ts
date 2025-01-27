@@ -21,8 +21,8 @@ const handler = async (_request: Request): Promise<Response> => {
   const html = await renderAsync(
       React.createElement(NewBookingEmail, {
         id: record.id,
-        name: record.nome,
-        surname: record.cognome,
+        name: record.name,
+        surname: record.surname,
         email: record.email,
         phone: record.phone,
         service: record.service,

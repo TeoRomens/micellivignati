@@ -8,7 +8,7 @@ import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group"
 import {Label} from "@/components/ui/label"
 import {Calendar} from "@/components/ui/calendar"
 import {ScrollArea} from "@/components/ui/scroll-area"
-import {format} from "date-fns"
+import {add, format} from "date-fns"
 import {Input} from "@/components/ui/input"
 import {createEvent, getAvailableSlots} from "@/app/(prenotazione)/booking/actions"
 import {Skeleton} from "@/components/ui/skeleton"
@@ -135,332 +135,385 @@ export default function BookingForm() {
         <main className="flex items-center justify-center min-h-screen px-8">
           <form name="appointment-booking-form" onSubmit={onSubmit} className="max-w-md w-full">
             <AnimatePresence mode="wait">
-            {currentStep === 1 && (
-                <motion.div
-                    key={currentStep}
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0}}
-                    transition={{duration: 0.2}}
-                >
-                  <Label>Seleziona un servizio</Label>
-                  <RadioGroup
-                      defaultValue={serviceId}
-                      value={serviceId}
-                      className="mt-4 grid grid-cols-2"
+              {currentStep === 1 && (
+                  <motion.div
+                      key={currentStep}
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
+                      transition={{duration: 0.2}}
                   >
-                    {servizi.map((item) => (
-                        <div
-                            key={`${id}-${item.nome}`}
-                            className="relative flex flex-col gap-1 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring"
-                        >
-                          <div className="flex justify-between mb-2">
-                            <RadioGroupItem
-                                id={`${id}-${item.nome}`}
-                                value={item.id}
-                                className="order-1 after:absolute after:inset-0"
-                                onClick={() => {
-                                  setServiceId(item.id)
-                                }}
-                            />
-                            <Scissors className="opacity-60" size={16} strokeWidth={2} aria-hidden="true"/>
+                    <Label>Seleziona un servizio</Label>
+                    <RadioGroup
+                        defaultValue={serviceId}
+                        value={serviceId}
+                        className="mt-4 grid grid-cols-2"
+                    >
+                      {servizi.map((item) => (
+                          <div
+                              key={`${id}-${item.nome}`}
+                              className="relative flex flex-col gap-1 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring"
+                          >
+                            <div className="flex justify-between mb-2">
+                              <RadioGroupItem
+                                  id={`${id}-${item.nome}`}
+                                  value={item.id}
+                                  className="order-1 after:absolute after:inset-0"
+                                  onClick={() => {
+                                    setServiceId(item.id)
+                                  }}
+                              />
+                              <Scissors className="opacity-60" size={16} strokeWidth={2} aria-hidden="true"/>
+                            </div>
+                            <Label htmlFor={`${id}-${item.nome}`}>{item.nome}</Label>
+                            <p className="text-xs text-muted-foreground">{item.durata} minuti</p>
                           </div>
-                          <Label htmlFor={`${id}-${item.nome}`}>{item.nome}</Label>
-                          <p className="text-xs text-muted-foreground">{item.durata} minuti</p>
-                        </div>
-                    ))}
-                  </RadioGroup>
-                  {errors.serviceId &&
-                      <p className="text-xs text-destructive mt-2">
-                        {errors.serviceId}
-                      </p>
-                  }
-                  <Button type="button" onClick={handleNextStep} className="mt-6 w-full">
-                    Avanti
-                  </Button>
-                </motion.div>
-            )}
+                      ))}
+                    </RadioGroup>
+                    {errors.serviceId &&
+                        <p className="text-xs text-destructive mt-2">
+                          {errors.serviceId}
+                        </p>
+                    }
+                    <Button type="button" onClick={handleNextStep} className="mt-6 w-full">
+                      Avanti
+                    </Button>
+                  </motion.div>
+              )}
 
 
-            {currentStep === 2 && (
-                <motion.div
-                    key={currentStep}
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0}}
-                    transition={{duration: 0.2}}
-                    className="max-w-md w-fit mx-auto"
-                >
-                  <Label>Quale giorno e orario vuoi prenotare?</Label>
-                  <div className="mt-4 rounded-lg border border-border">
-                    <div className="flex max-sm:flex-col">
-                      <Calendar
-                          mode="single"
-                          selected={selectedDate}
-                          onSelect={handleDayPickerSelect}
-                          className="p-2 sm:pe-5"
-                          disabled={[{before: new Date()}]}
-                      />
-                      <div className="relative w-full max-sm:h-48 sm:w-40">
-                        <div className="absolute inset-0 border-border py-4 max-sm:border-t">
-                          <ScrollArea className="h-full border-border sm:border-s">
-                            <div className="space-y-3">
-                              <div className="flex h-5 shrink-0 items-center px-5">
-                                <p className="text-sm font-medium">
-                                  {selectedDate
-                                      ?.toLocaleDateString("it-IT", {
-                                        weekday: "long",
-                                        day: "numeric",
-                                        month: "numeric",
-                                      })
-                                      .charAt(0)
-                                      .toUpperCase()}
-                                  {selectedDate
-                                      ?.toLocaleDateString("it-IT", {
-                                        weekday: "long",
-                                        day: "numeric",
-                                        month: "numeric",
-                                      })
-                                      .slice(1)}
-                                </p>
+              {currentStep === 2 && (
+                  <motion.div
+                      key={currentStep}
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
+                      transition={{duration: 0.2}}
+                      className="max-w-md w-fit mx-auto"
+                  >
+                    <Label>Quale giorno e orario vuoi prenotare?</Label>
+                    <div className="mt-4 rounded-lg border border-border">
+                      <div className="flex max-sm:flex-col">
+                        <Calendar
+                            mode="single"
+                            selected={selectedDate}
+                            onSelect={handleDayPickerSelect}
+                            className="p-2 sm:pe-5"
+                            disabled={[{before: new Date()}]}
+                        />
+                        <div className="relative w-full max-sm:h-48 sm:w-40">
+                          <div className="absolute inset-0 border-border py-4 max-sm:border-t">
+                            <ScrollArea className="h-full border-border sm:border-s">
+                              <div className="space-y-3">
+                                <div className="flex h-5 shrink-0 items-center px-5">
+                                  <p className="text-sm font-medium">
+                                    {selectedDate
+                                        ?.toLocaleDateString("it-IT", {
+                                          weekday: "long",
+                                          day: "numeric",
+                                          month: "numeric",
+                                        })
+                                        .charAt(0)
+                                        .toUpperCase()}
+                                    {selectedDate
+                                        ?.toLocaleDateString("it-IT", {
+                                          weekday: "long",
+                                          day: "numeric",
+                                          month: "numeric",
+                                        })
+                                        .slice(1)}
+                                  </p>
+                                </div>
+                                {isLoading ? (
+                                    <div className="space-y-2 px-5">
+                                      {Array.from({length: 5}).map((_, index) => (
+                                          <Skeleton
+                                              key={`${id}-time-skeleton-${index}`}
+                                              className="h-9 rounded-md w-full animate-pulse"
+                                          />
+                                      ))}
+                                    </div>
+                                ) : (
+                                    <div className="grid gap-1.5 px-5 max-sm:grid-cols-2">
+                                      {slots && slots.map((slot) => (
+                                          <Button
+                                              key={`${id}-${slot}`}
+                                              type="button"
+                                              variant={selectedTime === slot ? "default" : "outline"}
+                                              size="sm"
+                                              className="w-full"
+                                              onClick={() => {
+                                                setSelectedTime(slot)
+                                              }}
+                                          >
+                                            {slot}
+                                          </Button>
+                                      ))}
+                                    </div>
+                                )}
                               </div>
-                              {isLoading ? (
-                                  <div className="space-y-2 px-5">
-                                    {Array.from({length: 5}).map((_, index) => (
-                                        <Skeleton
-                                            key={`${id}-time-skeleton-${index}`}
-                                            className="h-9 rounded-md w-full animate-pulse"
-                                        />
-                                    ))}
-                                  </div>
-                              ) : (
-                                  <div className="grid gap-1.5 px-5 max-sm:grid-cols-2">
-                                    {slots && slots.map((slot) => (
-                                        <Button
-                                            key={`${id}-${slot}`}
-                                            type="button"
-                                            variant={selectedTime === slot ? "default" : "outline"}
-                                            size="sm"
-                                            className="w-full"
-                                            onClick={() => {
-                                              setSelectedTime(slot)
-                                            }}
-                                        >
-                                          {slot}
-                                        </Button>
-                                    ))}
-                                  </div>
-                              )}
-                            </div>
-                          </ScrollArea>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {errors.date && <p className="text-xs text-destructive mt-2">{errors.date}</p>}
-                  {errors.time && <p className="text-xs text-destructive mt-2">{errors.time}</p>}
-                  <Button type="button" onClick={handleNextStep} className="mt-6 w-full">
-                    Avanti
-                  </Button>
-                </motion.div>
-            )}
-
-            {currentStep === 3 && (
-                <motion.div
-                    key={currentStep}
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0}}
-                    transition={{duration: 0.2}}
-                >
-                  <div className="space-y-2">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="nome">
-                          Nome <span className="text-destructive">*</span>
-                        </Label>
-                        <Input
-                            id="nome"
-                            name="nome"
-                            type="text"
-                            placeholder="Inserisci il nome"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                        {errors.nome && <p className="text-xs text-destructive">{errors.nome}</p>}
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="cognome">
-                          Cognome <span className="text-destructive">*</span>
-                        </Label>
-                        <Input
-                            id="cognome"
-                            name="cognome"
-                            type="text"
-                            placeholder="Inserisci il cognome"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
-                            required
-                        />
-                        {errors.cognome && <p className="text-xs text-destructive">{errors.cognome}</p>}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="telefono">Telefono</Label>
-                      <RPNInput.default
-                          className="flex rounded-lg shadow-sm shadow-black/5"
-                          international
-                          flagComponent={FlagComponent}
-                          countrySelectComponent={CountrySelect}
-                          inputComponent={PhoneInput}
-                          id="telefono"
-                          name="telefono"
-                          placeholder="Enter phone number"
-                          value={phone}
-                          onChange={(value) => setPhone(value || "")}
-                          required
-                      />
-                      {errors.telefono && <p className="text-xs text-destructive">{errors.telefono}</p>}
-                      <p className="mt-2 text-xs text-muted-foreground" role="region" aria-live="polite">
-                        Non condivideremo il tuo numero con nessuno.
-                      </p>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <div className="relative">
-                        <Input
-                            id="email"
-                            name="email"
-                            className="peer ps-9"
-                            placeholder="Email"
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        <div
-                            className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-                          <AtSign size={16} strokeWidth={2} aria-hidden="true"/>
-                        </div>
-                      </div>
-                      {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
-                      <p className="mt-2 text-xs text-muted-foreground" role="region" aria-live="polite">
-                        Non condivideremo la tua email a nessuno
-                      </p>
-                    </div>
-                  </div>
-                  <Button type="button" onClick={handleNextStep} className="mt-6 w-full">
-                    Avanti
-                  </Button>
-                </motion.div>
-            )}
-
-            {currentStep === 4 && (
-                <motion.div
-                    key={currentStep}
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0}}
-                    transition={{duration: 0.2}}
-                >
-                  <h2 className="mb-4 text-md font-medium">Riepilogo</h2>
-                  <div
-                      className="relative flex w-full items-start gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
-                    <div className="flex grow items-start gap-3">
-                      <div className="grid gap-2">
-                        <Label htmlFor={id}>{servizi.find((service) => service.id === serviceId)?.nome}</Label>
-                        <p id={`${id}-description`} className="text-xs text-muted-foreground">
-                          Data e Orario
-                        </p>
-                        <Label htmlFor={id}>{selectedDate && format(selectedDate, "dd/MM/yyyy")}</Label>
-                        <Label htmlFor={id}>{selectedTime}</Label>
-                        <p id={`${id}-description`} className="text-xs text-muted-foreground">
-                          Dati Cliente
-                        </p>
-                        <Label htmlFor={id}>
-                          {name} {surname}
-                        </Label>
-                        <Label htmlFor={id}>{phone}</Label>
-                        <Label htmlFor={id}>{email}</Label>
-                      </div>
-                    </div>
-                  </div>
-                  <Button type="submit" className="mt-6 w-full" disabled={isLoading}>
-                    {isLoading && (
-                        <LoaderCircle className="-ms-1 me-2 animate-spin" size={16} strokeWidth={2} aria-hidden="true"/>
-                    )}
-                    Conferma
-                  </Button>
-                </motion.div>
-            )}
-
-            {currentStep === 5 && (
-                <motion.div
-                    key={currentStep}
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0}}
-                    transition={{duration: 0.2}}
-                >
-                  {responseCode === 201 && (
-                      <div className="space-y-2">
-                        <CircleCheck
-                            className="-mt-0.5 me-3 inline-flex text-emerald-500"
-                            size={48}
-                            strokeWidth={1.5}
-                            aria-hidden="true"
-                        />
-                        <h1 className="text-2xl/[1.1] font-bold tracking-tight text-foreground">
-                          Prenotazione Confermata!
-                        </h1>
-                        <p className="text-sm text-muted-foreground">
-                          Salva questa schermata per ricordarti o aggiungila al calendario!
-                        </p>
-                        <div
-                            className="relative flex w-full items-start gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
-                          <div className="flex grow items-start gap-3">
-                            <div className="grid gap-2">
-                              <Label htmlFor={id}>{servizi.find((service) => service.id === serviceId)?.nome}</Label>
-                              <p id={`${id}-description`} className="text-xs text-muted-foreground">
-                                Data e Orario
-                              </p>
-                              <Label htmlFor={id}>{selectedDate && format(selectedDate, "dd/MM/yyyy")}</Label>
-                              <Label htmlFor={id}>{selectedTime}</Label>
-                              <p id={`${id}-description`} className="text-xs text-muted-foreground">
-                                Dati Cliente
-                              </p>
-                              <Label htmlFor={id}>
-                                {name} {surname}
-                              </Label>
-                              <Label htmlFor={id}>{phone}</Label>
-                              <Label htmlFor={id}>{email}</Label>
-                            </div>
+                            </ScrollArea>
                           </div>
                         </div>
                       </div>
-                  )}
-                  {responseCode !== 201 && (
+                    </div>
+                    {errors.date && <p className="text-xs text-destructive mt-2">{errors.date}</p>}
+                    {errors.time && <p className="text-xs text-destructive mt-2">{errors.time}</p>}
+                    <Button type="button" onClick={handleNextStep} className="mt-6 w-full">
+                      Avanti
+                    </Button>
+                  </motion.div>
+              )}
+
+              {currentStep === 3 && (
+                  <motion.div
+                      key={currentStep}
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
+                      transition={{duration: 0.2}}
+                  >
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="nome">
+                            Nome <span className="text-destructive">*</span>
+                          </Label>
+                          <Input
+                              id="nome"
+                              name="nome"
+                              type="text"
+                              placeholder="Inserisci il nome"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              required
+                          />
+                          {errors.nome && <p className="text-xs text-destructive">{errors.nome}</p>}
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="cognome">
+                            Cognome <span className="text-destructive">*</span>
+                          </Label>
+                          <Input
+                              id="cognome"
+                              name="cognome"
+                              type="text"
+                              placeholder="Inserisci il cognome"
+                              value={surname}
+                              onChange={(e) => setSurname(e.target.value)}
+                              required
+                          />
+                          {errors.cognome && <p className="text-xs text-destructive">{errors.cognome}</p>}
+                        </div>
+                      </div>
+
                       <div className="space-y-2">
-                        <CircleX
-                            className="-mt-0.5 me-3 inline-flex text-red-500"
-                            size={48}
-                            strokeWidth={1.5}
-                            aria-hidden="true"
+                        <Label htmlFor="telefono">Telefono</Label>
+                        <RPNInput.default
+                            className="flex rounded-lg shadow-sm shadow-black/5"
+                            international
+                            flagComponent={FlagComponent}
+                            countrySelectComponent={CountrySelect}
+                            inputComponent={PhoneInput}
+                            id="telefono"
+                            name="telefono"
+                            placeholder="Enter phone number"
+                            value={phone}
+                            onChange={(value) => setPhone(value || "")}
+                            required
                         />
-                        <h1 className="text-2xl/[1.1] font-bold tracking-tight text-foreground">
-                          Errore durante la prenotazione.
-                        </h1>
-                        <p className="text-sm text-muted-foreground">
-                          Si prega di telefonare il negozio per prenotare un appuntamento.
+                        {errors.telefono && <p className="text-xs text-destructive">{errors.telefono}</p>}
+                        <p className="mt-2 text-xs text-muted-foreground" role="region" aria-live="polite">
+                          Non condivideremo il tuo numero con nessuno.
                         </p>
                       </div>
-                  )}
-                </motion.div>
-            )}
+
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <div className="relative">
+                          <Input
+                              id="email"
+                              name="email"
+                              className="peer ps-9"
+                              placeholder="Email"
+                              type="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              required
+                          />
+                          <div
+                              className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                            <AtSign size={16} strokeWidth={2} aria-hidden="true"/>
+                          </div>
+                        </div>
+                        {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
+                        <p className="mt-2 text-xs text-muted-foreground" role="region" aria-live="polite">
+                          Non condivideremo la tua email a nessuno
+                        </p>
+                      </div>
+                    </div>
+                    <Button type="button" onClick={handleNextStep} className="mt-6 w-full">
+                      Avanti
+                    </Button>
+                  </motion.div>
+              )}
+
+              {currentStep === 4 && (
+                  <motion.div
+                      key={currentStep}
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
+                      transition={{duration: 0.2}}
+                  >
+                    <h2 className="mb-4 text-md font-medium">Riepilogo</h2>
+                    <div
+                        className="relative flex w-full items-start gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
+                      <div className="flex grow items-start gap-3">
+                        <div className="grid gap-2">
+                          <Label htmlFor={id}>{servizi.find((service) => service.id === serviceId)?.nome}</Label>
+                          <p id={`${id}-description`} className="text-xs text-muted-foreground">
+                            Data e Orario
+                          </p>
+                          <Label htmlFor={id}>{selectedDate && format(selectedDate, "dd/MM/yyyy")}</Label>
+                          <Label htmlFor={id}>{selectedTime}</Label>
+                          <p id={`${id}-description`} className="text-xs text-muted-foreground">
+                            Dati Cliente
+                          </p>
+                          <Label htmlFor={id}>
+                            {name} {surname}
+                          </Label>
+                          <Label htmlFor={id}>{phone}</Label>
+                          <Label htmlFor={id}>{email}</Label>
+                        </div>
+                      </div>
+                    </div>
+                    <Button type="submit" className="mt-6 w-full" disabled={isLoading}>
+                      {isLoading && (
+                          <LoaderCircle className="-ms-1 me-2 animate-spin" size={16} strokeWidth={2}
+                                        aria-hidden="true"/>
+                      )}
+                      Conferma
+                    </Button>
+                  </motion.div>
+              )}
+
+              {currentStep === 5 && (
+                  <motion.div
+                      key={currentStep}
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
+                      transition={{duration: 0.2}}
+                  >
+                    {responseCode === 201 && (
+                        <div className="space-y-2">
+                          <CircleCheck
+                              className="-mt-0.5 me-3 inline-flex text-emerald-500"
+                              size={48}
+                              strokeWidth={2}
+                              aria-hidden="true"
+                          />
+                          <h1 className="text-2xl/[1.1] font-bold tracking-tight text-foreground">
+                            Prenotazione Confermata!
+                          </h1>
+                          <p className="text-sm text-muted-foreground">
+                            Salva questa schermata per ricordarti o aggiungila al calendario!
+                          </p>
+                          <div
+                              className="relative flex w-full items-start gap-2 rounded-lg border border-input p-4 shadow-sm shadow-black/5 has-[[data-state=checked]]:border-ring">
+                            <div className="flex grow items-start gap-3">
+                              <div className="grid gap-2">
+                                <Label htmlFor={id}>{servizi.find((service) => service.id === serviceId)?.nome}</Label>
+                                <p id={`${id}-description`} className="text-xs text-muted-foreground">
+                                  Data e Orario
+                                </p>
+                                <Label htmlFor={id}>{selectedDate && format(selectedDate, "dd/MM/yyyy")}</Label>
+                                <Label htmlFor={id}>{selectedTime}</Label>
+                                <p id={`${id}-description`} className="text-xs text-muted-foreground">
+                                  Dati Cliente
+                                </p>
+                                <Label htmlFor={id}>
+                                  {name} {surname}
+                                </Label>
+                                <Label htmlFor={id}>{phone}</Label>
+                                <Label htmlFor={id}>{email}</Label>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <Button
+                                className="mt-2 rounded-lg px-4 py-2 text-sm font-medium text-white"
+                                onClick={() => {
+                                  const formatDateToICS = (date: Date) => [
+                                    date.getUTCFullYear(),
+                                    date.getUTCMonth() + 1,
+                                    date.getUTCDate(),
+                                    date.getUTCHours(),
+                                    date.getUTCMinutes(),
+                                  ];
+
+                                  const service = servizi.find((service) => service.id === serviceId);
+                                  if (!service) throw new Error("Service not found");
+
+                                  const [hours, minutes] = selectedTime.split(":").map(Number);
+                                  const start = selectedDate;
+                                  start.setHours(hours, minutes)
+                                  const end = add(start, {minutes: service.durata});
+
+                                  const event = {
+                                    start: formatDateToICS(start),
+                                    startInputType: 'utc',
+                                    end: formatDateToICS(end),
+                                    endInputType: 'utc',
+                                    title: `Parrucchiere - ${service.nome}`,
+                                    description: `Prenotazione effettuata via web`,
+                                    location: 'Acconciature Micelli e Vignati - Via della Vittoria 27, 20025 Legnano',
+                                    status: 'CONFIRMED',
+                                  };
+
+                                  const ical = require('ics');
+                                  const {error: icsError, value} = ical.createEvent(event);
+
+                                  if (icsError) {
+                                    console.error('Error generating ICS event:', icsError);
+                                    return;
+                                  }
+
+                                  const blob = new Blob([value], {type: 'text/calendar'});
+                                  const url = URL.createObjectURL(blob);
+                                  const link = document.createElement('a');
+                                  link.href = url;
+                                  link.download = `booking_${id}.ics`;
+                                  link.click();
+                                  URL.revokeObjectURL(url);
+                                }}
+                            >
+                              Aggiungi al calendario
+                            </Button>
+                          </div>
+
+                        </div>
+                    )}
+                    {responseCode !== 201 && (
+                        <div className="space-y-2">
+                          <CircleX
+                              className="-mt-0.5 me-3 inline-flex text-red-500"
+                              size={48}
+                              strokeWidth={1.5}
+                              aria-hidden="true"
+                          />
+                          <h1 className="text-2xl/[1.1] font-bold tracking-tight text-foreground">
+                            Errore durante la prenotazione.
+                          </h1>
+                          <p className="text-sm text-muted-foreground">
+                            Si prega di telefonare il negozio per prenotare un appuntamento.
+                          </p>
+                        </div>
+                    )}
+                  </motion.div>
+              )}
             </AnimatePresence>
           </form>
         </main>

@@ -40,7 +40,7 @@ export const NewBookingEmail = ({
   return (
       <Html>
         <Head />
-        <Preview>{nome} {cognome} - {service}</Preview>
+        <Preview>{name} {surname} - {service}</Preview>
         <Body style={main}>
           <Container style={container}>
             <Text style={title}>Nuova prenotazione #{id}</Text>
