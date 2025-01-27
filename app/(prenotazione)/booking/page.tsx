@@ -132,7 +132,7 @@ export default function BookingForm() {
             Indietro
           </Button>
         </header>
-        <main className="flex items-center justify-center min-h-screen">
+        <main className="flex items-center justify-center min-h-screen px-8">
           <form name="appointment-booking-form" onSubmit={onSubmit} className="max-w-md w-full">
             <AnimatePresence mode="wait">
             {currentStep === 1 && (
@@ -189,8 +189,9 @@ export default function BookingForm() {
                     animate={{opacity: 1}}
                     exit={{opacity: 0}}
                     transition={{duration: 0.2}}
+                    className="max-w-md w-fit mx-auto"
                 >
-                  <Label className="">Quale giorno e orario vuoi prenotare?</Label>
+                  <Label>Quale giorno e orario vuoi prenotare?</Label>
                   <div className="mt-4 rounded-lg border border-border">
                     <div className="flex max-sm:flex-col">
                       <Calendar
