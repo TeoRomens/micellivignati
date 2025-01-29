@@ -4,7 +4,7 @@ import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import {add, endOfDay, format, isAfter, isBefore, startOfDay} from "date-fns";
 import { servizi } from "./types";
 import { createClient } from "@/utils/supabase/server";
-import * as fs from "fs";
+import ical, {ICalCalendarMethod} from "ical-generator";
 
 const generateSlots = (startTime: Date, endTime: Date, interval: number) => {
   const slots = [];
@@ -62,9 +62,9 @@ export const getAvailableSlots = async (date: Date, serviceId: string) => {
   console.log("Fetched bookings:", data);
 
   const dateSlots = await buildDateSlots(date);
-  const isSaturday = date.getDay() === 6; // Saturday check
+  const isSaturday = date.getDay() === 6; // Saturday
 
-  // Salon closing time (example: 6:30 PM)
+  // Closing time (example: 6:30 PM)
   const closingTime = new Date(date);
   closingTime.setHours(18, 30, 0, 0);
 
@@ -99,7 +99,7 @@ export const getAvailableSlots = async (date: Date, serviceId: string) => {
 };
 
 export const createEvent = async (
-    data: {
+    formData: {
       serviceId: string;
       date: Date;
       time: string;
@@ -111,23 +111,23 @@ export const createEvent = async (
 ) => {
   const supabase = await createClient()
 
-  const service = servizi.find((service) => service.id === data.serviceId);
+  const service = servizi.find((service) => service.id === formData.serviceId);
   if (!service) throw new Error("Service not found");
 
-  const [hours, minutes] = data.time.split(":").map(Number);
-  const start = data.date;
-  start.setHours(hours, minutes)
-  const end = add(start, {minutes: service.durata});
+  const [hours, minutes] = formData.time.split(":").map(Number);
+  formData.date.setHours(hours, minutes)
+  const start = formData.date
+  const end = add(formData.date, {minutes: service.durata});
 
-  const { data: booking, error, status } = await supabase.from("booking").insert({
+  const { error, status } = await supabase.from("booking").insert({
     service: service.nome,
     start: start.toISOString(),
     end: end.toISOString(),
-    name: data.name,
-    surname: data.surname,
-    email: data.email,
-    phone: data.phone,
-  }).select().single();
+    name: formData.name,
+    surname: formData.surname,
+    email: formData.email,
+    phone: formData.phone,
+  });
 
   if (error) {
     console.error("Error inserting data into database:", error);
@@ -136,52 +136,18 @@ export const createEvent = async (
 
   console.log("Event successfully inserted into the database");
 
-  const ical = require('ics');
-  const event = {
-    start: formatDateToICS(start),
-    startInputType: 'utc',
-    end: formatDateToICS(end),
-    endInputType: 'utc',
-    title: `${service.nome} - ${data.name} ${data.surname}`,
-    description: `Prenotazione effettuata via web da ${data.name} ${data.surname} \n${data.email}\n${data.phone}`,
-    status: 'CONFIRMED',
-  };
-  const { error: icsError, value } = ical.createEvent(event);
-  if (icsError) {
-    console.error('Error generating ICS event:', icsError);
-    return status;
-  }
+  const calendar = ical({ name: 'booking' });
+  calendar.method(ICalCalendarMethod.ADD);
+  calendar.createEvent({
+    start: new Date(start.toISOString()),
+    end: new Date(end.toISOString()),
+    timezone: "UTC",
+    organizer: 'Micelli e Vignati <acme@example.com>',
+    summary: `Parrucchiera - ${service.nome}`,
+    description: `Prenotazione effettuata via web da ${formData.name} ${formData.surname} \n${formData.email}\n${formData.phone}.\n Per qualiasi informazione/modifica telefonare direttamente il negozio.`,
+  });
 
-  const filePath = `/tmp/booking_${booking.id}.ics`;
-  fs.writeFileSync(filePath, value);
-
-  // Upload the file to Supabase Storage
-  const file = fs.readFileSync(filePath);
-  const { error: uploadError } = await supabase.storage
-      .from('bookings')
-      .upload(`booking_${booking.id}.ics`, file, {
-        contentType: 'text/calendar',
-        cacheControl: '3600',
-      });
-
-  if (uploadError) {
-    console.error('Error uploading ICS to Supabase:', uploadError);
-    return status;
-  }
-  console.log('ICS file uploaded');
-
-  fs.unlinkSync(filePath);
+  console.log(calendar.toJSON())
 
   return status
-};
-
-const formatDateToICS = (date: Date): string => {
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  const hours = String(date.getUTCHours()).padStart(2, '0');
-  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-
-  return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
 };

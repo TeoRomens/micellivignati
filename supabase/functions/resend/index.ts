@@ -1,22 +1,13 @@
 import {NewBookingEmail} from "./template.tsx";
 import {renderAsync} from 'npm:@react-email/components@0.0.22'
 import React from 'npm:react@18.3.1'
-import {createClient} from "npm:@supabase/supabase-js@latest";
+import ical, { ICalCalendarMethod } from 'npm:ical-generator@8.1.1';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 const handler = async (_request: Request): Promise<Response> => {
   const json = await _request.json();
   const record = json.record;
-
-  const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-  );
-
-  const {data: icsFileUrl} = supabase.storage
-      .from('bookings')
-      .getPublicUrl(`booking_${record.id}.ics`)
 
   const html = await renderAsync(
       React.createElement(NewBookingEmail, {
@@ -31,10 +22,26 @@ const handler = async (_request: Request): Promise<Response> => {
       })
   )
 
+  const calendar = ical({ name: `booking_${record.id}` });
+  calendar.method(ICalCalendarMethod.REQUEST);
+  calendar.createEvent({
+    start: new Date(record.start),
+    end: new Date(record.end),
+    timezone: 'UTC',
+    organizer: 'Acconciature Micelli e Vignati <micelli.vignati@hotmail.it>',
+    summary: `${record.service} - ${record.name} ${record.surname}`,
+    description: `Prenotazione effettuata via web da ${record.name} ${record.surname} \n${record.email}\n${record.phone}`,
+    attendees: [
+      { name: `${record.name} ${record.surname}`, email: record.email },
+    ],
+  });
+
+
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Content-Disposition': 'attachment; filename="invite.ics"',
       Authorization: `Bearer ${RESEND_API_KEY}`,
     },
     body: JSON.stringify({
@@ -44,8 +51,9 @@ const handler = async (_request: Request): Promise<Response> => {
       html: html,
       attachments: [
         {
-          path: icsFileUrl.publicUrl,
+          content: calendar.toString(),
           filename: 'invite.ics',
+          content_type: 'text/calendar; charset="UTF-8"; method=REQUEST',
         },
       ],
     }),
@@ -54,7 +62,7 @@ const handler = async (_request: Request): Promise<Response> => {
   const data = await res.json()
 
   return new Response(JSON.stringify(data), {
-    status: 200,
+    status: res.ok ? 200 : 400,
     headers: {
       'Content-Type': 'application/json',
     },
