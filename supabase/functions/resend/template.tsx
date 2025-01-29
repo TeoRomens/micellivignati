@@ -20,7 +20,6 @@ interface NewBookingEmailProps {
   service: string
   start: string
   end: string
-  icsFileUrl: string
 }
 
 export const NewBookingEmail = ({
@@ -32,7 +31,6 @@ export const NewBookingEmail = ({
                                   service,
                                   start,
                                   end,
-                                  icsFileUrl,
                                 }: NewBookingEmailProps) => {
   const formattedStart = format(new Date(start), 'dd/MM/yyyy HH:mm')
   const formattedEnd = format(new Date(end), 'dd/MM/yyyy HH:mm')
@@ -66,13 +64,6 @@ export const NewBookingEmail = ({
               </Text>
             </Section>
 
-            {/* Centering the button */}
-            <div style={buttonContainer}>
-              <Button style={button} href={icsFileUrl}>
-                Aggiungi al calendario
-              </Button>
-            </div>
-
             <Text style={footer}>Creato da Matteo Roman</Text>
           </Container>
         </Body>
@@ -92,7 +83,7 @@ const main = {
 const container = {
   maxWidth: '480px',
   margin: '0 auto',
-  padding: '20px 0 48px',
+  padding: '10px 0 20px',
 }
 
 const title = {
@@ -113,27 +104,9 @@ const text = {
   textAlign: 'left' as const,
 }
 
-const button = {
-  fontSize: '14px',
-  backgroundColor: '#7161ef',
-  color: '#fff',
-  lineHeight: 1.5,
-  borderRadius: '0.5em',
-  padding: '12px 24px',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'inline-block',
-}
-
-const buttonContainer = {
-  display: 'flex',
-  justifyContent: 'center',
-  marginTop: '20px',
-}
-
 const footer = {
   color: '#6a737d',
   fontSize: '12px',
   textAlign: 'center' as const,
-  marginTop: '60px',
+  marginTop: '50px',
 }

@@ -28,7 +28,6 @@ const handler = async (_request: Request): Promise<Response> => {
         service: record.service,
         start: record.start,
         end: record.end,
-        icsFileUrl: icsFileUrl.publicUrl,
       })
   )
 
@@ -39,10 +38,16 @@ const handler = async (_request: Request): Promise<Response> => {
       Authorization: `Bearer ${RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: 'Booking Management <onboarding@resend.dev>',
+      from: 'Prenotazioni Web <onboarding@resend.dev>',
       to: 'matteoroman4@gmail.com',
       subject: `Nuova Prenotazione ${record.id}`,
       html: html,
+      attachments: [
+        {
+          path: icsFileUrl.publicUrl,
+          filename: 'invite.ics',
+        },
+      ],
     }),
   })
 

@@ -444,6 +444,7 @@ export default function BookingForm() {
                           </div>
                           <div>
                             <Button
+                                type="button"
                                 className="mt-2 rounded-lg px-4 py-2 text-sm font-medium text-white"
                                 onClick={() => {
                                   const formatDateToICS = (date: Date) => [

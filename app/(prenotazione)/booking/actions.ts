@@ -62,6 +62,7 @@ export const getAvailableSlots = async (date: Date, serviceId: string) => {
   console.log("Fetched bookings:", data);
 
   const dateSlots = await buildDateSlots(date);
+  const isSaturday = date.getDay() === 6; // Saturday check
 
   // Salon closing time (example: 6:30 PM)
   const closingTime = new Date(date);
