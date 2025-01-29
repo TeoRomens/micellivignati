@@ -4,7 +4,6 @@ import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import {add, endOfDay, format, isAfter, isBefore, startOfDay} from "date-fns";
 import { servizi } from "./types";
 import { createClient } from "@/utils/supabase/server";
-import ical, {ICalCalendarMethod} from "ical-generator";
 
 const generateSlots = (startTime: Date, endTime: Date, interval: number) => {
   const slots = [];
@@ -94,7 +93,7 @@ export const getAvailableSlots = async (date: Date, serviceId: string) => {
 
   // Convert available Date objects to string time slots
   return availableSlots.map((slot) => {
-    return format(toZonedTime(slot, "Europe/Paris"), "HH:mm");
+    return format(toZonedTime(slot, "Europe/Rome"), "HH:mm");
   });
 };
 
@@ -135,19 +134,6 @@ export const createEvent = async (
   }
 
   console.log("Event successfully inserted into the database");
-
-  const calendar = ical({ name: 'booking' });
-  calendar.method(ICalCalendarMethod.ADD);
-  calendar.createEvent({
-    start: new Date(start.toISOString()),
-    end: new Date(end.toISOString()),
-    timezone: "UTC",
-    organizer: 'Micelli e Vignati <acme@example.com>',
-    summary: `Parrucchiera - ${service.nome}`,
-    description: `Prenotazione effettuata via web da ${formData.name} ${formData.surname} \n${formData.email}\n${formData.phone}.\n Per qualiasi informazione/modifica telefonare direttamente il negozio.`,
-  });
-
-  console.log(calendar.toJSON())
 
   return status
 };

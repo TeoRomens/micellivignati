@@ -17,6 +17,7 @@ import flags from "react-phone-number-input/flags"
 import {cn} from "@/lib/utils"
 import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
+import ical, {ICalCalendarMethod} from "ical-generator";
 
 export default function BookingForm() {
   const id = useId()
@@ -445,48 +446,41 @@ export default function BookingForm() {
                           <div>
                             <Button
                                 type="button"
-                                className="mt-2 rounded-lg px-4 py-2 text-sm font-medium text-white"
+                                className="mt-2 rounded-lg px-4 py-2 text-sm font-medium text-white bg-purple-400 hover:bg-purple-300"
                                 onClick={() => {
-                                  const formatDateToICS = (date: Date) => [
-                                    date.getUTCFullYear(),
-                                    date.getUTCMonth() + 1,
-                                    date.getUTCDate(),
-                                    date.getUTCHours(),
-                                    date.getUTCMinutes(),
-                                  ];
-
-                                  const service = servizi.find((service) => service.id === serviceId);
-                                  if (!service) throw new Error("Service not found");
-
-                                  const [hours, minutes] = selectedTime!.split(":").map(Number);
-                                  const start = selectedDate!;
-                                  start.setHours(hours, minutes)
-                                  const end = add(start, {minutes: service.durata});
-
-                                  const event = {
-                                    start: formatDateToICS(start),
-                                    startInputType: 'utc',
-                                    end: formatDateToICS(end),
-                                    endInputType: 'utc',
-                                    title: `Parrucchiere - ${service.nome}`,
-                                    description: `Prenotazione effettuata via web`,
-                                    location: 'Acconciature Micelli e Vignati - Via della Vittoria 27, 20025 Legnano',
-                                    status: 'CONFIRMED',
-                                  };
-
-                                  const ical = require('ics');
-                                  const {error: icsError, value} = ical.createEvent(event);
-
-                                  if (icsError) {
-                                    console.error('Error generating ICS event:', icsError);
+                                  if (!selectedDate || !selectedTime) {
+                                    alert("Seleziona una data e un orario prima di aggiungere al calendario.");
                                     return;
                                   }
 
-                                  const blob = new Blob([value], {type: 'text/calendar'});
+                                  const service = servizi.find((s) => s.id === serviceId);
+                                  if (!service) {
+                                    alert("Servizio non trovato.");
+                                    return;
+                                  }
+
+                                  const [hours, minutes] = selectedTime.split(":").map(Number);
+                                  const start = new Date(selectedDate); // Crea una nuova data per evitare effetti collaterali
+                                  start.setHours(hours, minutes, 0, 0);
+                                  const end = add(start, { minutes: service.durata });
+
+                                  const calendar = new ical({ name: 'booking' });
+                                  calendar.method(ICalCalendarMethod.PUBLISH);
+                                  calendar.createEvent({
+                                    start,
+                                    end,
+                                    timezone: "UTC",
+                                    organizer: { name: 'Micelli e Vignati', email: 'micelli.vignati@hotmail.it' },
+                                    summary: `Parrucchiera - ${service.nome}`,
+                                    description: "Per qualsiasi informazione e/o modifica telefonare direttamente al negozio.",
+                                  });
+
+                                  const icsContent = calendar.toString();
+                                  const blob = new Blob([icsContent], { type: 'text/calendar' });
                                   const url = URL.createObjectURL(blob);
                                   const link = document.createElement('a');
                                   link.href = url;
-                                  link.download = `booking_${id}.ics`;
+                                  link.download = `booking_${serviceId}.ics`;
                                   link.click();
                                   URL.revokeObjectURL(url);
                                 }}
