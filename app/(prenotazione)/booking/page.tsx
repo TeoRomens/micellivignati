@@ -464,8 +464,8 @@ export default function BookingForm() {
                                   start.setHours(hours, minutes, 0, 0);
                                   const end = add(start, { minutes: service.durata });
 
-                                  const calendar = new ical({ name: 'booking' });
-                                  calendar.method(ICalCalendarMethod.PUBLISH);
+                                  const calendar = ical({ name: 'booking' });
+                                  calendar.method(ICalCalendarMethod.ADD);
                                   calendar.createEvent({
                                     start,
                                     end,
