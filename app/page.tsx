@@ -5,6 +5,18 @@ import {Button} from "@/components/ui/button";
 import Header from "@/components/header";
 import Image from "next/legacy/image";
 import Background from "@/public/bg.jpg";
+import Image1 from "@/public/image1.jpeg";
+import Image2 from "@/public/image2.jpeg";
+import Image3 from "@/public/image3.jpeg";
+import Image4 from "@/public/image4.jpeg";
+import Image5 from "@/public/image5.jpeg";
+import Image6 from "@/public/image6.jpeg";
+import Image7 from "@/public/image7.jpeg";
+import Image8 from "@/public/image8.jpeg";
+import Image9 from "@/public/image9.jpeg";
+import Barbara from "@/public/barbara.jpeg";
+import Simonetta from "@/public/simonetta.jpeg";
+
 import {servizi} from "@/app/(prenotazione)/booking/services";
 
 const Nautigal = The_Nautigal({weight: ["400", "700"], subsets: ["latin"]});
@@ -107,7 +119,8 @@ export default async function Home() {
                 className="grid sm:max-w-6xl mx-auto grid-cols-2 overflow-hidden lg:grid-cols-3 [&>*]:relative [&>*]:px-1 [&>*]:py-10 [&>*]:before:absolute [&>*]:before:bg-border/70 [&>*]:before:[block-size:100vh] [&>*]:before:[inline-size:1px] [&>*]:before:[inset-block-start:0] [&>*]:before:[inset-inline-start:-1px] [&>*]:after:absolute [&>*]:after:bg-border/70 [&>*]:after:[block-size:1px] [&>*]:after:[inline-size:100vw] [&>*]:after:[inset-block-start:-1px] [&>*]:after:[inset-inline-start:0] sm:[&>*]:px-8 xl:[&>*]:px-12">
               {servizi.map((servizio) => {
                 return (
-                    <div className="flex flex-col max-sm:items-center gap-1 sm:gap-4 sm:flex-row justify-center sm:mr-4">
+                    <div
+                        className="flex flex-col max-sm:items-center gap-1 sm:gap-4 sm:flex-row justify-center sm:mr-4">
                       <div className="flex size-10 shrink-0 items-center justify-center" aria-hidden="true">
                         <Scissors
                             className="opacity-80"
@@ -119,8 +132,8 @@ export default async function Home() {
                       <div className="flex flex-col space-y-2 text-center sm:text-left mx-2">
                         <h2 className={cn(
                             "text-3xl sm:text-4xl font-bold",
-                                Nautigal.className
-                            )}
+                            Nautigal.className
+                        )}
                         >
                           {servizio.nome}
                         </h2>
@@ -182,77 +195,48 @@ export default async function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="grid gap-4">
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image1} alt="Image 1"/>
               </div>
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image2} alt="Image 2"/>
               </div>
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image3} alt="Image 3"/>
               </div>
             </div>
             <div className="grid gap-4">
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image4} alt="Image 4"/>
               </div>
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image5} alt="Image 5"/>
               </div>
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image6} alt="Image 2"/>
               </div>
             </div>
             <div className="grid gap-4">
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image7} alt="Image 7"/>
               </div>
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image8} alt="Image 8"/>
               </div>
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image9} alt="Image 9"/>
               </div>
             </div>
             <div className="grid gap-4">
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image3} alt="Image 3"/>
               </div>
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image1} alt="Image 1"/>
               </div>
               <div>
-                <img className="h-auto max-w-full rounded-lg"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt=""/>
+                <Image className="h-auto max-w-full rounded-lg" src={Image2} alt="Image 2"/>
               </div>
             </div>
-          </div>
-
-          <div className="space-y-4 pt-16 max-w-sm mx-auto">
-            <Button variant={"outline"} asChild>
-              <a
-                  href="./booking"
-                  target="_blank"
-              >
-                Prenota un appuntamento
-                <Sparkles
-                    className="-me-1 ms-2 opacity-60"
-                    size={16}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                />
-              </a>
-            </Button>
           </div>
         </div>
 
@@ -292,20 +276,24 @@ export default async function Home() {
                 </h2>
               </div>
             </div>
-            <div className="grid gap-8 lg:gap-16 sm:grid-cols-2">
-              <div className="text-center text-gray-500 dark:text-gray-400">
-                <img className="mx-auto mb-4 w-36 h-36 rounded-full"
-                     src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
-                     alt="Michael Avatar"/>
+            <div className="grid gap-8 lg:gap-16 sm:grid-cols-2 items-center">
+              <div className="text-center text-balance text-gray-500 dark:text-gray-400">
+                <Image className="mx-auto mb-4 rounded-full object-cover"
+                       src={Barbara}
+                       width={200}
+                       height={200}
+                       alt="Barbara Vignati"/>
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   Barbara Vignati
                 </h3>
                 <p>Esperta in colorazioni e trattamenti innovativi, Barbara dà vita ai tuoi desideri di stile.</p>
               </div>
-              <div className="text-center text-gray-500 dark:text-gray-400">
-                <img className="mx-auto mb-4 w-36 h-36 rounded-full"
-                     src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/neil-sims.png"
-                     alt="Neil Avatar"/>
+              <div className="text-center text-balance text-gray-500 dark:text-gray-400">
+                <Image className="mx-auto mb-4 rounded-full object-cover"
+                       src={Simonetta}
+                       width={200}
+                       height={200}
+                       alt="Simonetta Micelli"/>
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   Simonetta Micelli
                 </h3>
@@ -338,7 +326,6 @@ export default async function Home() {
             </ul>
           </div>
         </footer>
-
       </>
   );
 }
