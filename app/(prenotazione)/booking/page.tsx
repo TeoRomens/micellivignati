@@ -12,7 +12,7 @@ import {
   Scissors
 } from "lucide-react"
 import {Button} from "@/components/ui/button"
-import {servizi} from "./services.ts"
+import {servizi} from "./services"
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group"
 import {Label} from "@/components/ui/label"
 import {Calendar} from "@/components/ui/calendar"

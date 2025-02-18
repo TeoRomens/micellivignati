@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button";
 import Header from "@/components/header";
 import Image from "next/legacy/image";
 import Background from "@/public/bg.jpg";
-import {servizi} from "@/app/(prenotazione)/booking/services.ts";
+import {servizi} from "@/app/(prenotazione)/booking/services";
 
 const Nautigal = The_Nautigal({weight: ["400", "700"], subsets: ["latin"]});
 
