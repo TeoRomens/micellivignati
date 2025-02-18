@@ -63,9 +63,8 @@ export const getAvailableSlots = async (date: Date, serviceId: string) => {
   const dateSlots = await buildDateSlots(date);
   const isSaturday = date.getDay() === 6; // Saturday
 
-  // Closing time (example: 6:30 PM)
   const closingTime = new Date(date);
-  closingTime.setHours(18, 30, 0, 0);
+  closingTime.setHours(19, 0, 0, 0);
 
   const availableSlots = dateSlots.filter((slot) => {
     const slotEnd = add(slot, { minutes: service.durata });

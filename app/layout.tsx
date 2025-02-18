@@ -1,7 +1,9 @@
 import {ThemeProvider} from "@/components/theme-provider";
-import type {Metadata, Viewport} from "next";
+import type {Metadata} from "next";
 import {Inter as FontSans} from "next/font/google";
 import "./globals.css";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import React from "react";
 
 const defaultUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
@@ -16,13 +18,6 @@ const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-
-export const viewport: Viewport = {
-  initialScale: 1,
-  width: "device-width",
-  maximumScale: 1,
-  viewportFit: "cover",
-};
 
 export default function RootLayout({
                                      children,
@@ -42,6 +37,7 @@ export default function RootLayout({
             {children}
           </div>
       </ThemeProvider>
+      <Sonner richColors />
       </body>
       </html>
   );

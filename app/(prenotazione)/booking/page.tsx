@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useId, useState} from "react"
+import React, {useEffect, useId, useState} from "react"
 import {
   AtSign,
   ChevronDown,
@@ -27,6 +27,7 @@ import {cn} from "@/lib/utils"
 import {AnimatePresence, motion} from "framer-motion";
 import {useRouter} from "next/navigation";
 import ical, {ICalCalendarMethod} from "ical-generator";
+import {toast} from "sonner";
 
 export default function BookingForm() {
   const id = useId()
@@ -134,10 +135,26 @@ export default function BookingForm() {
     }
   }
 
+  useEffect(() => {
+    toast.warning(
+        <div>
+          Per prenotazioni al sabato o per qualsiasi necessità, contattare telefonicamente il negozio al numero
+          <br/>
+          <a href="tel:0331544221" rel="noopener noreferrer" className="underline">
+            0331-544221
+          </a>
+        </div>,
+        {
+          position: 'top-right',
+          duration: 10000,
+          closeButton: true
+        })
+  }, [])
+
   return (
       <>
         <header className="fixed left-1 top-1">
-          <Button variant="link" onClick={handlePrevStep}>
+          <Button variant="link" onClick={handlePrevStep} disabled={currentStep == 1}>
             <ChevronLeft className="me-1 opacity-60" size={16} strokeWidth={2} aria-hidden="true"/>
             Indietro
           </Button>
@@ -209,7 +226,11 @@ export default function BookingForm() {
                             selected={selectedDate}
                             onSelect={handleDayPickerSelect}
                             className="p-2 sm:pe-5"
-                            disabled={[{before: new Date()}]}
+                            disabled={[{
+                              before: new Date()
+                            },
+                              (date) => date.getDay() == 6 || date.getDay() == 0,
+                            ]}
                         />
                         <div className="relative w-full max-sm:h-48 sm:w-40">
                           <div className="absolute inset-0 border-border py-4 max-sm:border-t">
@@ -287,7 +308,7 @@ export default function BookingForm() {
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="nome">
-                            Nome <span className="text-destructive">*</span>
+                            Nome
                           </Label>
                           <Input
                               id="nome"
@@ -303,7 +324,7 @@ export default function BookingForm() {
 
                         <div className="space-y-2">
                           <Label htmlFor="cognome">
-                            Cognome <span className="text-destructive">*</span>
+                            Cognome
                           </Label>
                           <Input
                               id="cognome"
