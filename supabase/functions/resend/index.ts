@@ -45,8 +45,8 @@ const handler = async (_request: Request): Promise<Response> => {
       Authorization: `Bearer ${RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: 'Prenotazioni Web <onboarding@resend.dev>',
-      to: 'matteoroman4@gmail.com',
+      from: 'Prenotazioni Web <acconciature@micellivignati.it>',
+      to: 'micelli.vignati@hotmail.it',
       subject: `Nuova Prenotazione ${record.id}`,
       html: html,
       attachments: [

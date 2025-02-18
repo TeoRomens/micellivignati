@@ -1,9 +1,18 @@
 "use client"
 
 import React, {useId, useState} from "react"
-import {AtSign, ChevronDown, ChevronLeft, CircleCheck, CircleX, LoaderCircle, Phone, Scissors} from "lucide-react"
+import {
+  AtSign,
+  ChevronDown,
+  ChevronLeft,
+  CircleCheck,
+  CircleX,
+  LoaderCircle,
+  Phone,
+  Scissors
+} from "lucide-react"
 import {Button} from "@/components/ui/button"
-import {servizi} from "./types"
+import {servizi} from "./services.ts"
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group"
 import {Label} from "@/components/ui/label"
 import {Calendar} from "@/components/ui/calendar"
@@ -134,7 +143,7 @@ export default function BookingForm() {
           </Button>
         </header>
         <main className="flex items-center justify-center min-h-screen px-8">
-          <form name="appointment-booking-form" onSubmit={onSubmit} className="max-w-md w-full">
+          <form name="appointment-booking-form" onSubmit={onSubmit} className="max-w-md w-full max-h-[80vh]">
             <AnimatePresence mode="wait">
               {currentStep === 1 && (
                   <motion.div
@@ -148,7 +157,7 @@ export default function BookingForm() {
                     <RadioGroup
                         defaultValue={serviceId}
                         value={serviceId}
-                        className="mt-4 grid grid-cols-2"
+                        className="mt-4 grid grid-cols-2 max-h-[70vh] overflow-y-auto"
                     >
                       {servizi.map((item) => (
                           <div
@@ -314,6 +323,7 @@ export default function BookingForm() {
                         <RPNInput.default
                             className="flex rounded-lg shadow-sm shadow-black/5"
                             international
+                            defaultCountry={"IT"}
                             flagComponent={FlagComponent}
                             countrySelectComponent={CountrySelect}
                             inputComponent={PhoneInput}
@@ -446,7 +456,7 @@ export default function BookingForm() {
                           <div>
                             <Button
                                 type="button"
-                                className="mt-2 rounded-lg px-4 py-2 text-sm font-medium text-white bg-purple-400 hover:bg-purple-300"
+                                className="mt-2 rounded-lg px-4 py-2 text-sm font-medium text-white"
                                 onClick={() => {
                                   if (!selectedDate || !selectedTime) {
                                     alert("Seleziona una data e un orario prima di aggiungere al calendario.");
@@ -462,21 +472,21 @@ export default function BookingForm() {
                                   const [hours, minutes] = selectedTime.split(":").map(Number);
                                   const start = new Date(selectedDate); // Crea una nuova data per evitare effetti collaterali
                                   start.setHours(hours, minutes, 0, 0);
-                                  const end = add(start, { minutes: service.durata });
+                                  const end = add(start, {minutes: service.durata});
 
-                                  const calendar = ical({ name: 'booking' });
+                                  const calendar = ical({name: 'booking'});
                                   calendar.method(ICalCalendarMethod.ADD);
                                   calendar.createEvent({
                                     start,
                                     end,
                                     timezone: "UTC",
-                                    organizer: { name: 'Micelli e Vignati', email: 'micelli.vignati@hotmail.it' },
+                                    organizer: {name: 'Micelli e Vignati', email: 'micelli.vignati@hotmail.it'},
                                     summary: `Parrucchiera - ${service.nome}`,
                                     description: "Per qualsiasi informazione e/o modifica telefonare direttamente al negozio.",
                                   });
 
                                   const icsContent = calendar.toString();
-                                  const blob = new Blob([icsContent], { type: 'text/calendar' });
+                                  const blob = new Blob([icsContent], {type: 'text/calendar'});
                                   const url = URL.createObjectURL(blob);
                                   const link = document.createElement('a');
                                   link.href = url;

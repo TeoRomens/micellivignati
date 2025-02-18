@@ -12,7 +12,7 @@ export default function Header() {
                 aria-label="Home"
                 className="rounded-full outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70"
             >
-              <span className="sr-only">Origin UI</span>
+              <span className="sr-only">Micelli Vignati</span>
               <svg
                   className="stroke-white"
                   xmlns="http://www.w3.org/2000/svg"

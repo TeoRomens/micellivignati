@@ -1,37 +1,14 @@
 import {The_Nautigal} from "next/font/google";
 import {cn} from "@/lib/utils";
-import {ArrowDown, Scissors, Sparkles} from "lucide-react";
+import {Scissors, Sparkles} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import Header from "@/components/header";
 import Image from "next/legacy/image";
-import Backround1 from "@/public/background-1.jpg";
+import Background from "@/public/bg.jpg";
+import {servizi} from "@/app/(prenotazione)/booking/services.ts";
 
 const Nautigal = The_Nautigal({weight: ["400", "700"], subsets: ["latin"]});
 
-type Component = {
-  name: string;
-  description: string;
-  price: string
-};
-
-const components: Component[] = [
-  {name: "Taglio Uomo", description: "Taglio classico o moderno, realizzato per valorizzare il tuo look", price: "17",},
-  {
-    name: "Taglio Donna",
-    description: "Dai tagli corti ai lunghi, sempre al passo con le ultime tendenze.",
-    price: "20",
-  },
-  {
-    name: "Tinta Donna",
-    description: "Colorazioni personalizzate, dal naturale all’eccentrico, per un look unico e vibrante.",
-    price: "30",
-  },
-  {name: "Taglio Uomo", description: "Comparison 1", price: "17",},
-  {name: "Taglio Donna", description: "Comparison 1", price: "20",},
-  {name: "Tinta Donna", description: "Comparison 1", price: "30",},
-  {name: "Taglio Uomo", description: "Comparison 1", price: "17",},
-  {name: "Taglio Donna", description: "Comparison 1", price: "20",},
-]
 export default async function Home() {
   return (
       <>
@@ -40,7 +17,7 @@ export default async function Home() {
           {/* Parallax Background */}
           <div className="absolute inset-0 -z-10">
             <Image
-                src={Backround1}
+                src={Background}
                 alt="Background"
                 layout="fill"
                 objectFit="cover"
@@ -81,15 +58,6 @@ export default async function Home() {
                         aria-hidden="true"
                     />
                   </a>
-                </Button>
-                <Button variant="outline">
-                  Esplora i servizi
-                  <ArrowDown
-                      className="-me-1 ms-2 opacity-60"
-                      size={16}
-                      strokeWidth={2}
-                      aria-hidden="true"
-                  />
                 </Button>
               </div>
             </div>
@@ -137,14 +105,10 @@ export default async function Home() {
 
             <div
                 className="grid sm:max-w-6xl mx-auto grid-cols-2 overflow-hidden lg:grid-cols-3 [&>*]:relative [&>*]:px-1 [&>*]:py-10 [&>*]:before:absolute [&>*]:before:bg-border/70 [&>*]:before:[block-size:100vh] [&>*]:before:[inline-size:1px] [&>*]:before:[inset-block-start:0] [&>*]:before:[inset-inline-start:-1px] [&>*]:after:absolute [&>*]:after:bg-border/70 [&>*]:after:[block-size:1px] [&>*]:after:[inline-size:100vw] [&>*]:after:[inset-block-start:-1px] [&>*]:after:[inset-inline-start:0] sm:[&>*]:px-8 xl:[&>*]:px-12">
-              {components.map((component) => {
+              {servizi.map((servizio) => {
                 return (
-                    <div
-                        className="flex flex-col max-sm:items-center gap-1 sm:gap-4 sm:flex-row justify-center sm:mr-4">
-                      <div
-                          className="flex size-10 shrink-0 items-center justify-center"
-                          aria-hidden="true"
-                      >
+                    <div className="flex flex-col max-sm:items-center gap-1 sm:gap-4 sm:flex-row justify-center sm:mr-4">
+                      <div className="flex size-10 shrink-0 items-center justify-center" aria-hidden="true">
                         <Scissors
                             className="opacity-80"
                             size={28}
@@ -153,24 +117,21 @@ export default async function Home() {
                         />
                       </div>
                       <div className="flex flex-col space-y-2 text-center sm:text-left mx-2">
-                        <h2
-                            className={cn(
-                                "text-3xl sm:text-4xl font-bold",
+                        <h2 className={cn(
+                            "text-3xl sm:text-4xl font-bold",
                                 Nautigal.className
                             )}
                         >
-                          {component.name}
+                          {servizio.nome}
                         </h2>
                         <p className="text-sm text-muted-foreground">
-                          {component.description}
+                          {servizio.description}
                         </p>
-                        <p
-                            className={cn(
-                                "text-2xl sm:text-3xl font-bold",
-                                Nautigal.className
-                            )}
-                        >
-                          €{component.price}
+                        <p className={cn(
+                            "text-2xl sm:text-3xl font-bold",
+                            Nautigal.className
+                        )}>
+                          €{servizio.price}
                         </p>
                       </div>
                     </div>
@@ -180,7 +141,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <div className="py-16 mx-auto px-4 text-center container bg-gradient-to-br from-purple-500/40 to-purple-950/60">
+        <div className="py-16 text-center px-8 bg-gradient-to-br from-purple-500/40 to-purple-950/60">
           <div className="mb-8">
             <div className="flex items-center justify-center mb-4">
               <div className="w-16 h-px bg-gray-300"></div>
@@ -348,8 +309,7 @@ export default async function Home() {
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   Simonetta Micelli
                 </h3>
-                <p>Specializzata in tagli di precisione e acconciature personalizzate, Simonetta combina tecnica e
-                  creatività.</p>
+                <p>Specializzata in tagli che rendono ogni persona unica nel suo stile! Tecnica e creatività!</p>
               </div>
             </div>
           </div>

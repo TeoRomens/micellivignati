@@ -2,7 +2,7 @@
 
 import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import {add, endOfDay, format, isAfter, isBefore, startOfDay} from "date-fns";
-import { servizi } from "./types";
+import { servizi } from "./services.ts";
 import { createClient } from "@/utils/supabase/server";
 
 const generateSlots = (startTime: Date, endTime: Date, interval: number) => {
@@ -32,7 +32,7 @@ const buildDateSlots = async (date: Date) => {
         +slot.slice(0, 2),
         +slot.slice(3, 5)
     );
-    return fromZonedTime(cetDateTime, "Europe/Paris");
+    return fromZonedTime(cetDateTime, "Europe/Rome");
   });
 };
 
