@@ -46,15 +46,14 @@ export default async function Home() {
             <div className="text-center">
               <h1
                   className={cn(
-                      "mx-auto mb-4 max-w-screen-md text-7xl/[1.1] font-bold tracking-tight text-white md:text-9xl/[1.1]",
+                      "mx-auto mb-8 max-w-screen-md text-7xl/[1.1] font-bold tracking-tight text-white md:text-9xl/[1.1]",
                       Nautigal.className
                   )}
               >
                 Acconciature <br/> Micelli e Vignati
               </h1>
               <p className="mb-8 max-w-[300px] sm:max-w-xl mx-auto text-md sm:text-lg text-primary-foreground">
-                La nostra passione è rendervi unici. Acconciature su misura per ogni occasione, curate nei minimi
-                dettagli.
+                La nostra passione è rendervi unici. Ogni taglio è un’opera unica, pensata per esaltare il tuo stile e valorizzare la tua naturale bellezza.
               </p>
               <div className="space-y-4 pt-4 max-w-sm mx-auto">
                 <Button variant={"outline"} asChild>
@@ -303,14 +302,57 @@ export default async function Home() {
           </div>
         </section>
 
+        <section className="py-16 text-center px-8 bg-gradient-to-br from-purple-500/40 to-purple-950/60">
+          <div className="container mx-auto">
+            <div className="mb-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-16 h-px bg-gray-300"></div>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#FFFFFF"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mx-3"
+                >
+                  <circle cx="6" cy="6" r="3"/>
+                  <path d="M8.12 8.12 12 12"/>
+                  <path d="M20 4 8.12 15.88"/>
+                  <circle cx="6" cy="18" r="3"/>
+                  <path d="M14.8 14.8 20 20"/>
+                </svg>
+                <div className="w-16 h-px bg-gray-300"></div>
+              </div>
+              <h2
+                  className={cn(
+                      "mx-auto mb-4 max-w-3xl text-6xl/[1.1] sm:text-7xl/[1.1] font-bold tracking-tight text-primary-foreground",
+                      Nautigal.className,
+                  )}
+              >
+                La nostra visione
+              </h2>
+            </div>
+            <p className={cn("max-w-4xl mx-auto text-4xl sm:text-5xl tracking-tight text-primary-foreground", Nautigal.className,)}>
+              Il nostro lavoro è dedicato a esaltare e valorizzare ogni persona con un taglio unico e su misura, secondo
+              lo stile e le forme del viso. Non ci limitiamo a eseguire un taglio o una piega, ma mettiamo la nostra
+              passione in ogni cliente. Lo facciamo con amore per questo mestiere, forti di anni di esperienza e sempre
+              alla ricerca della perfezione in ogni dettaglio.
+            </p>
+          </div>
+        </section>
 
-        <footer className="bg-purple-400/80 dark:bg-gray-800">
+
+        <footer className="bg-white dark:bg-gray-800">
           <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-      <span className="text-sm text-primary-foreground sm:text-center dark:text-gray-400">© 2025 <a
+      <span className="text-sm text-primary sm:text-center dark:text-gray-400">© 2025 <a
           href="#"
           className="hover:underline">Acconciature Micelli e Viganti</a>. All Rights Reserved.
-    </span>
-            <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-primary-foreground dark:text-gray-400 sm:mt-0">
+      </span>
+            <ul className="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-gray-400 sm:mt-0">
               <li>
                 <a href="#" className="hover:underline me-4 md:me-6">About</a>
               </li>
@@ -318,10 +360,7 @@ export default async function Home() {
                 <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
               </li>
               <li>
-                <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">Contact</a>
+                <a href="#" className="hover:underline">Contatti</a>
               </li>
             </ul>
           </div>
