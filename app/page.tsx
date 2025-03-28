@@ -42,11 +42,11 @@ export default async function Home() {
           </div>
 
           <div
-              className="relative z-10 flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-500/40 to-purple-950/60">
+              className="relative z-10 flex items-center justify-center min-h-screen bg-linear-to-br from-purple-500/40 to-purple-950/60">
             <div className="text-center">
               <h1
                   className={cn(
-                      "mx-auto mb-8 max-w-screen-md text-7xl/[1.1] font-bold tracking-tight text-white md:text-9xl/[1.1]",
+                      "mx-auto mb-8 max-w-(--breakpoint-md) text-7xl/[1.1] font-bold tracking-tight text-white md:text-9xl/[1.1]",
                       Nautigal.className
                   )}
               >
@@ -115,7 +115,7 @@ export default async function Home() {
             </div>
 
             <div
-                className="grid sm:max-w-6xl mx-auto grid-cols-2 overflow-hidden lg:grid-cols-3 [&>*]:relative [&>*]:px-1 [&>*]:py-10 [&>*]:before:absolute [&>*]:before:bg-border/70 [&>*]:before:[block-size:100vh] [&>*]:before:[inline-size:1px] [&>*]:before:[inset-block-start:0] [&>*]:before:[inset-inline-start:-1px] [&>*]:after:absolute [&>*]:after:bg-border/70 [&>*]:after:[block-size:1px] [&>*]:after:[inline-size:100vw] [&>*]:after:[inset-block-start:-1px] [&>*]:after:[inset-inline-start:0] sm:[&>*]:px-8 xl:[&>*]:px-12">
+                className="grid sm:max-w-6xl mx-auto grid-cols-2 overflow-hidden lg:grid-cols-3 *:relative *:px-1 *:py-10 *:before:absolute *:before:bg-border/70 *:before:[block-size:100vh] *:before:[inline-size:1px] *:before:[inset-block-start:0] *:before:[inset-inline-start:-1px] *:after:absolute *:after:bg-border/70 *:after:[block-size:1px] *:after:[inline-size:100vw] *:after:[inset-block-start:-1px] *:after:[inset-inline-start:0] sm:*:px-8 xl:*:px-12">
               {servizi.map((servizio) => {
                 return (
                     <div
@@ -153,7 +153,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <div className="py-16 text-center px-8 bg-gradient-to-br from-purple-500/40 to-purple-950/60">
+        <div className="py-16 text-center px-8 bg-linear-to-br from-purple-500/40 to-purple-950/60">
           <div className="mb-8">
             <div className="flex items-center justify-center mb-4">
               <div className="w-16 h-px bg-gray-300"></div>
@@ -240,8 +240,8 @@ export default async function Home() {
         </div>
 
         <section className="bg-background">
-          <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
-            <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
+          <div className="py-8 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6 ">
+            <div className="mx-auto max-w-(--breakpoint-sm) text-center mb-8 lg:mb-16">
               <div className="mb-8">
                 <div className="flex items-center justify-center mb-4">
                   <div className="w-16 h-px bg-gray-300"></div>
@@ -302,7 +302,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="py-16 text-center px-8 bg-gradient-to-br from-purple-500/40 to-purple-950/60">
+        <section className="py-16 text-center px-8 bg-linear-to-br from-purple-500/40 to-purple-950/60">
           <div className="container mx-auto">
             <div className="mb-8">
               <div className="flex items-center justify-center mb-4">
@@ -347,7 +347,7 @@ export default async function Home() {
 
 
         <footer className="bg-white dark:bg-gray-800">
-          <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+          <div className="w-full mx-auto max-w-(--breakpoint-xl) p-4 md:flex md:items-center md:justify-between">
       <span className="text-sm text-primary sm:text-center dark:text-gray-400">© 2025 <a
           href="#"
           className="hover:underline">Acconciature Micelli e Viganti</a>. All Rights Reserved.
