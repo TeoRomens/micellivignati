@@ -121,7 +121,7 @@ export default async function Page() {
               <div className="space-y-4 pt-4 max-w-sm mx-auto">
                 <Button variant={"outline"} asChild>
                   <a
-                      href="./booking"
+                      href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
                       target="_blank"
                   >
                     Prenota un appuntamento
