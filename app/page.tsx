@@ -25,7 +25,7 @@ import {
 
 const Nautigal = The_Nautigal({weight: ["400", "700"], subsets: ["latin"]});
 
-export const servizi = [
+const servizi = [
   {
     id: "1", nome: "Taglio Uomo", durata: 60, Icon: Scissors, price: "17",
     description: "Taglio su misura per valorizzare il tuo stile e la forma del viso."
