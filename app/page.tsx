@@ -1,433 +1,259 @@
-import {The_Nautigal} from "next/font/google";
-import {cn} from "@/lib/utils";
-import {Button} from "@/components/ui/button";
-import Header from "@/components/header";
-import Image from "next/legacy/image";
-import Background from "@/public/bg.jpg";
-import Image1 from "@/public/image1.jpeg";
-import Image2 from "@/public/image2.jpeg";
-import Image3 from "@/public/image3.jpeg";
-import Image4 from "@/public/image4.jpeg";
-import Image5 from "@/public/image5.jpeg";
-import Image6 from "@/public/image6.jpeg";
-import Image7 from "@/public/image7.jpeg";
-import Image8 from "@/public/image8.jpeg";
-import Image9 from "@/public/image9.jpeg";
-import Barbara from "@/public/barbara.jpeg";
-import Simonetta from "@/public/simonetta.jpeg";
-import {
-  Brush,
-  Eraser,
-  Scissors,
-  SwatchBook,
-  Sparkles
-} from "lucide-react";
+'use client'
 
-const Nautigal = The_Nautigal({weight: ["400", "700"], subsets: ["latin"]});
+import {motion} from "framer-motion";
+import Link from "next/link";
+import {FadeWrapper} from "@/components/fade-wrapper";
+import {Header} from "@/components/header";
+import React from "react";
+import {Scissors} from "lucide-react";
+import {ReviewCarousel} from "@/components/marquee";
+import {useActivePanel} from "@/hooks/useActivePanel";
+import {Section} from "@/components/section";
+import TeamDiv from "@/components/team";
+import {Footer} from "@/components/footer";
+import ServicesSwiper from "@/components/services";
+import Image from "next/image";
+import {Gallery} from "@/components/gallery";
 
-const servizi = [
-  {
-    id: "1", nome: "Taglio Uomo", durata: 60, Icon: Scissors, price: "17",
-    description: "Taglio su misura per valorizzare il tuo stile e la forma del viso."
-  },
+export default function Page() {
+  useActivePanel();
 
-  {
-    id: "2", nome: "Taglio e Piega Donna", durata: 60, Icon: Scissors, price: "49",
-    description: "Un taglio personalizzato e una piega perfetta per esaltare la tua bellezza naturale."
-  },
+  const variants = {
+    hidden: {filter: "blur(10px)", transform: "translateY(10px)", opacity: 0},
+    visible: {filter: "blur(0)", transform: "translateY(0)", opacity: 1},
+  };
 
-  {
-    id: "3", nome: "Taglio e Piega Lunga", durata: 120, Icon: Eraser, price: "53",
-    description: "Taglio e styling studiati per dare volume e movimento ai capelli lunghi."
-  },
-
-  {
-    id: "4", nome: "Colore", durata: 120, Icon: Brush, price: "35-50",
-    description: "Colore su misura per illuminare e valorizzare il tuo incarnato e stile."
-  },
-
-  {
-    id: "5", nome: "Permanente", durata: 180, Icon: SwatchBook, price: "45-55",
-    description: "Ricci definiti e naturali per un look sempre perfetto e pieno di carattere."
-  },
-
-  {
-    id: "6", nome: "Colpi di sole", durata: 240, Icon: Brush, price: "55-70",
-    description: "Schiariture delicate per un effetto luminoso e naturale, studiato su di te."
-  },
-
-  {
-    id: "7", nome: "Stiratura classica", durata: 120, Icon: Brush, price: "45-55",
-    description: "Liscio impeccabile e duraturo, senza stressare il capello."
-  },
-
-  {
-    id: "8", nome: "Lissage", durata: 120, Icon: Brush, price: "65",
-    description: "Trattamento lisciante avanzato per capelli setosi e disciplinati a lungo."
-  },
-
-  {
-    id: "9", nome: "Piega", durata: 60, Icon: Brush, price: "24",
-    description: "Piega su misura per un look elegante e definito in ogni occasione."
-  },
-
-  {
-    id: "10", nome: "Piega Lunga", durata: 90, Icon: Brush, price: "32",
-    description: "Styling perfetto per capelli lunghi, con volume e movimento naturale."
-  },
-
-  {
-    id: "11", nome: "Toner", durata: 60, Icon: Brush, price: "10",
-    description: "Tonalizzazione personalizzata per riflessi intensi e luminosi."
-  }
-];
-
-export default async function Page() {
   return (
-      <>
-        <Header/>
-        <div className="relative">
-
-          {/* Background */}
-          <div className="absolute inset-0 -z-10">
-            <Image
-                src={Background}
-                alt="Background"
-                layout="fill"
-                objectFit="cover"
-                className="opacity-50"
-                priority
-                style={{
-                  backgroundAttachment: "fixed",
-                }}
-            />
-          </div>
-
-          <div
-              className="relative z-10 flex items-center justify-center min-h-screen bg-linear-to-br from-purple-500/40 to-purple-950/60">
-            <div className="text-center">
-              <h1
-                  className={cn(
-                      "mx-auto mb-8 max-w-(--breakpoint-md) text-7xl/[1.1] font-bold tracking-tight text-white md:text-9xl/[1.1]",
-                      Nautigal.className
-                  )}
-              >
-                Acconciature <br/> Micelli e Vignati
-              </h1>
-              <p className="mb-8 max-w-[300px] sm:max-w-xl mx-auto text-md sm:text-lg text-primary-foreground">
-                La nostra passione è rendervi unici. Ogni taglio è un’opera unica, pensata per esaltare il tuo stile e
-                valorizzare la tua naturale bellezza.
-              </p>
-              <div className="space-y-4 pt-4 max-w-sm mx-auto">
-                <Button variant={"outline"} asChild>
-                  <a
-                      href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
-                      target="_blank"
-                  >
-                    Prenota un appuntamento
-                    <Sparkles
-                        className="-me-1 ms-2 opacity-60"
-                        size={16}
-                        strokeWidth={2}
-                        aria-hidden="true"
-                    />
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <section id="services" className="bg-white py-16">
-          <div className="container mx-auto px-4 text-center">
-            <div className="mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <div className="w-16 h-px bg-gray-300"></div>
+    <main className="grow">
+      <Header/>
+      <motion.div
+        className="relative flex w-full flex-col justify-center"
+        initial="hidden"
+        animate="visible"
+        transition={{duration: 1}}
+        variants={variants}
+        exit="hidden"
+      >
+        <Section>
+          <FadeWrapper>
+            <p className="mb-8 flex items-center gap-2 text-primary">
+              <span className="wave">
                 <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#581c87"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mx-3"
-                >
-                  <circle cx="6" cy="6" r="3"/>
-                  <path d="M8.12 8.12 12 12"/>
-                  <path d="M20 4 8.12 15.88"/>
-                  <circle cx="6" cy="18" r="3"/>
-                  <path d="M14.8 14.8 20 20"/>
-                </svg>
-                <div className="w-16 h-px bg-gray-300"></div>
-              </div>
-              <h2
-                  className={cn(
-                      "mx-auto mb-4 max-w-3xl text-6xl/[1.1] sm:text-7xl/[1.1] font-bold tracking-tight text-purple-900",
-                      Nautigal.className
-                  )}
-              >
-                I Nostri Servizi
-              </h2>
-              <p className="max-w-lg mx-auto text-gray-600">
-                Trasforma il tuo look con stile: scopri i nostri servizi di acconciatura su misura, dove creatività e
-                professionalità si incontrano per valorizzare la tua bellezza unica.
-              </p>
-            </div>
-
-            <div
-                className="grid sm:max-w-6xl mx-auto grid-cols-2 overflow-hidden lg:grid-cols-3 *:relative *:px-1 *:py-10 *:before:absolute *:before:bg-border/70 *:before:[block-size:100vh] *:before:[inline-size:1px] *:before:[inset-block-start:0] *:before:[inset-inline-start:-1px] *:after:absolute *:after:bg-border/70 *:after:[block-size:1px] *:after:[inline-size:100vw] *:after:[inset-block-start:-1px] *:after:[inset-inline-start:0] sm:*:px-8 xl:*:px-12">
-              {servizi.map((servizio) => {
-                return (
-                    <div
-                        className="flex flex-col max-sm:items-center gap-1 sm:gap-4 sm:flex-row justify-center sm:mr-4">
-                      <div className="flex size-10 shrink-0 items-center justify-center" aria-hidden="true">
-                        <Scissors
-                            className="opacity-80"
-                            size={28}
-                            strokeWidth={2}
-                            stroke={"#581c87"}
-                        />
-                      </div>
-                      <div className="flex flex-col space-y-2 text-center sm:text-left mx-2">
-                        <h2 className={cn(
-                            "text-3xl sm:text-4xl font-bold",
-                            Nautigal.className
-                        )}
-                        >
-                          {servizio.nome}
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                          {servizio.description}
-                        </p>
-                        <p className={cn(
-                            "text-2xl sm:text-3xl font-bold",
-                            Nautigal.className
-                        )}>
-                          €{servizio.price}
-                        </p>
-                      </div>
-                    </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <div className="py-16 text-center px-8 bg-linear-to-br from-purple-500/40 to-purple-950/60">
-          <div className="mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-16 h-px bg-gray-300"></div>
-              <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#FFFFFF"
-                  strokeWidth={2}
+                  stroke="currentColor"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="mx-3"
-              >
-                <circle cx="6" cy="6" r="3"/>
-                <path d="M8.12 8.12 12 12"/>
-                <path d="M20 4 8.12 15.88"/>
-                <circle cx="6" cy="18" r="3"/>
-                <path d="M14.8 14.8 20 20"/>
-              </svg>
-              <div className="w-16 h-px bg-gray-300"></div>
-            </div>
-            <h2
-                className={cn(
-                    "mx-auto mb-4 max-w-3xl text-6xl/[1.1] sm:text-7xl/[1.1] font-bold tracking-tight text-primary-foreground",
-                    Nautigal.className
-                )}
-            >
-              Gallery
-            </h2>
-            <p className="max-w-lg mx-auto text-primary-foreground">
-              Scopri alcune delle nostre creazioni: stili moderni, dettagli impeccabili e personalità in ogni
-              acconciatura.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="grid gap-4">
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image1} alt="Image 1"/>
-              </div>
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image2} alt="Image 2"/>
-              </div>
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image3} alt="Image 3"/>
-              </div>
-            </div>
-            <div className="grid gap-4">
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image4} alt="Image 4"/>
-              </div>
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image5} alt="Image 5"/>
-              </div>
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image6} alt="Image 2"/>
-              </div>
-            </div>
-            <div className="grid gap-4">
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image7} alt="Image 7"/>
-              </div>
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image8} alt="Image 8"/>
-              </div>
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image9} alt="Image 9"/>
-              </div>
-            </div>
-            <div className="grid gap-4">
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image3} alt="Image 3"/>
-              </div>
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image1} alt="Image 1"/>
-              </div>
-              <div>
-                <Image className="h-auto max-w-full rounded-lg" src={Image2} alt="Image 2"/>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <section className="bg-background">
-          <div className="py-8 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6 ">
-            <div className="mx-auto max-w-(--breakpoint-sm) text-center mb-8 lg:mb-16">
-              <div className="mb-8">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-16 h-px bg-gray-300"></div>
-                  <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#581c87"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mx-3"
-                  >
-                    <circle cx="6" cy="6" r="3"/>
-                    <path d="M8.12 8.12 12 12"/>
-                    <path d="M20 4 8.12 15.88"/>
-                    <circle cx="6" cy="18" r="3"/>
-                    <path d="M14.8 14.8 20 20"/>
-                  </svg>
-                  <div className="w-16 h-px bg-gray-300"></div>
-                </div>
-                <h2
-                    className={cn(
-                        "mx-auto mb-4 max-w-3xl text-6xl/[1.1] sm:text-7xl/[1.1] font-bold tracking-tight text-purple-900",
-                        Nautigal.className
-                    )}
+                  className="lucide lucide-hand text-highlight"
                 >
-                  La squadra
-                </h2>
-              </div>
-            </div>
-            <div className="grid gap-8 lg:gap-16 sm:grid-cols-2 items-center">
-              <div className="text-center text-balance text-gray-500 dark:text-gray-400">
-                <Image className="mx-auto mb-4 rounded-full object-cover"
-                       src={Barbara}
-                       width={200}
-                       height={200}
-                       alt="Barbara Vignati"/>
-                <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  Barbara Vignati
-                </h3>
-                <p>Esperta in colorazioni e trattamenti innovativi, Barbara dà vita ai tuoi desideri di stile.</p>
-              </div>
-              <div className="text-center text-balance text-gray-500 dark:text-gray-400">
-                <Image className="mx-auto mb-4 rounded-full object-cover"
-                       src={Simonetta}
-                       width={200}
-                       height={200}
-                       alt="Simonetta Micelli"/>
-                <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  Simonetta Micelli
-                </h3>
-                <p>Specializzata in tagli che rendono ogni persona unica nel suo stile! Tecnica e creatività!</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 text-center px-8 bg-linear-to-br from-purple-500/40 to-purple-950/60">
-          <div className="container mx-auto">
-            <div className="mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <div className="w-16 h-px bg-gray-300"></div>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#FFFFFF"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mx-3"
-                >
-                  <circle cx="6" cy="6" r="3"/>
-                  <path d="M8.12 8.12 12 12"/>
-                  <path d="M20 4 8.12 15.88"/>
-                  <circle cx="6" cy="18" r="3"/>
-                  <path d="M14.8 14.8 20 20"/>
+                  <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                  <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+                  <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                  <path
+                    d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
                 </svg>
-                <div className="w-16 h-px bg-gray-300"></div>
-              </div>
-              <h2
-                  className={cn(
-                      "mx-auto mb-4 max-w-3xl text-6xl/[1.1] sm:text-7xl/[1.1] font-bold tracking-tight text-primary-foreground",
-                      Nautigal.className,
-                  )}
+              </span>
+              Benvenuti !
+            </p>
+          </FadeWrapper>
+          <FadeWrapper delay={150}>
+            <div>
+              <h1
+                className="font-melodrama text-pretty font-semibold text-6xl md:text-7xl lg:text-8xl">
+                Acconciature <br/> <span className="text-highlight">Micelli & Vignati</span>.
+              </h1>
+            </div>
+          </FadeWrapper>
+          <FadeWrapper delay={300}>
+            <div className="md:flex-center mt-8 flex flex-col gap-4 md:flex-row">
+              <div className="h-[1px] w-full bg-bg-700"></div>
+              <p className="w-full text-pretty text-primary leading-5.5">
+                La nostra passione è rendervi unici. Ogni taglio è un’opera unica, pensata per esaltare il tuo stile e
+                valorizzare la tua naturale bellezza.
+              </p>
+            </div>
+          </FadeWrapper>
+          <FadeWrapper delay={450}>
+            <div className="mt-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
+              <Link
+                className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-highlight text-white hover:bg-highlight/90 px-8 py-3"
+                href="/"
               >
-                La nostra visione
+                Prenota un appuntamento
+              </Link>
+            </div>
+          </FadeWrapper>
+        </Section>
+        <Section
+          className="flex flex-col items-center justify-center min-h-screen"
+          dataColor="highlight"
+        >
+          <FadeWrapper>
+            <div className="flex w-fit items-center gap-2 mb-8">
+              <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
+                I Nostri <span className="text-white">Servizi</span>.
               </h2>
             </div>
-            <p className={cn("max-w-4xl mx-auto text-4xl sm:text-5xl tracking-tight text-primary-foreground", Nautigal.className,)}>
-              Il nostro lavoro è dedicato a esaltare e valorizzare ogni persona con un taglio unico e su misura, secondo
-              lo stile e le forme del viso. Non ci limitiamo a eseguire un taglio o una piega, ma mettiamo la nostra
-              passione in ogni cliente. Lo facciamo con amore per questo mestiere, forti di anni di esperienza e sempre
-              alla ricerca della perfezione in ogni dettaglio.
+          </FadeWrapper>
+          <FadeWrapper delay={150}>
+            <p className="w-full text-pretty text-white leading-5.5 mb-8">
+              Trasforma il tuo look con stile: scopri i nostri servizi di acconciatura su misura, dove creatività e
+              professionalità si incontrano per valorizzare la tua bellezza unica.
             </p>
+          </FadeWrapper>
+          <ServicesSwiper/>
+        </Section>
+        <Section
+          className="flex flex-col-reverse md:flex-row gap-8 md:gap-20">
+          <div className="grid grid-cols-1 grid-rows-[masonry] gap-4 sm:grid-cols-2">
+            <FadeWrapper delay={0}>
+              <div className="rounded-3xl border border-muted p-6 h-fit w-full even:mt-14 bg-white">
+                <Scissors className="mb-2 size-5 text-highlight"/>
+                <h5 className="mb-2 font-melodrama font-medium text-2xl">
+                  Mentoring
+                </h5>
+                <p className="text-secondary">
+                  Get connected with a mentor that will help you pave your career path.
+                </p>
+              </div>
+            </FadeWrapper>
+            <FadeWrapper delay={150}>
+              <div className="rounded-3xl border border-muted p-6 h-fit w-full even:mt-14 bg-white">
+                <Scissors className="mb-2 size-5 text-highlight"/>
+                <h5 className="mb-2 font-melodrama font-medium text-2xl">
+                  Mentoring
+                </h5>
+                <p className="text-secondary">
+                  Get connected with a mentor that will help you pave your career path.
+                </p>
+              </div>
+            </FadeWrapper>
+            <FadeWrapper delay={300}>
+              <div className="rounded-3xl border border-muted p-6 h-fit w-full even:mt-14 bg-white">
+                <Scissors className="mb-2 size-5 text-highlight"/>
+                <h5 className="mb-2 font-melodrama font-medium text-2xl">
+                  Mentoring
+                </h5>
+                <p className="text-secondary">
+                  Get connected with a mentor that will help you pave your career path.
+                </p>
+              </div>
+            </FadeWrapper>
+            <FadeWrapper delay={450}>
+              <div className="rounded-3xl border border-muted p-6 h-fit w-full even:mt-14 bg-white">
+                <Scissors className="mb-2 size-5 text-highlight"/>
+                <h5 className="mb-2 font-melodrama font-medium text-2xl">
+                  Mentoring
+                </h5>
+                <p className="text-secondary">
+                  Get connected with a mentor that will help you pave your career path.
+                </p>
+              </div>
+            </FadeWrapper>
           </div>
-        </section>
-
-
-        <footer className="bg-white dark:bg-gray-800">
-          <div className="w-full mx-auto max-w-(--breakpoint-xl) p-4 md:flex md:items-center md:justify-between">
-      <span className="text-sm text-primary sm:text-center dark:text-gray-400">© 2025 <a
-          href="#"
-          className="hover:underline">Acconciature Micelli e Viganti</a>. All Rights Reserved.
-      </span>
-            <ul className="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-gray-400 sm:mt-0">
-              <li>
-                <a href="#" className="hover:underline me-4 md:me-6">About</a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">Contatti</a>
-              </li>
-            </ul>
+          <div className="w-full space-y-6">
+            <FadeWrapper>
+              <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
+                I Nostri <span className="text-highlight">Valori</span>.
+              </h2>
+            </FadeWrapper>
+            <FadeWrapper delay={150}>
+              <p className="text-primary">
+                I founded Design &amp; Code which is a global community with a mission to connect designers and
+                developers
+                to create a happy community eager to learn, innovate and grow together. We welcome all designers and
+                developers: beginners, intermediates, and experts willing to learn together. We encourage sharing
+                resources and learning experiences, organizing events, and providing feedback for our members to grow
+                as
+                they learn.
+              </p>
+            </FadeWrapper>
+            <FadeWrapper delay={150}>
+              <Link
+                className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-highlight text-white hover:bg-highlight/90 px-8 py-3"
+                href="/"
+              >
+                Prenota un appuntamento
+              </Link>
+            </FadeWrapper>
           </div>
-        </footer>
-      </>
-  );
+        </Section>
+        <Section
+          className="flex flex-col md:flex-row gap-8 md:gap-20"
+          dataColor="highlight"
+        >
+          <TeamDiv/>
+        </Section>
+        <Section className="flex flex-col items-center justify-center space-y-8">
+          <FadeWrapper>
+            <div className="mb-4 flex w-fit items-center gap-2">
+              <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
+                Cosa dicono di <span className="text-highlight">noi</span>.
+              </h2>
+            </div>
+          </FadeWrapper>
+          <ReviewCarousel/>
+        </Section>
+        <Section
+          className="flex flex-col items-center justify-center space-y-8"
+          dataColor="highlight"
+        >
+          <FadeWrapper>
+            <div className="mb-4 flex w-fit items-center gap-2">
+              <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
+                Gallery <span className="text-highlight">.</span>
+              </h2>
+            </div>
+          </FadeWrapper>
+          <Gallery
+            images={["/image1.jpeg", "/image2.jpeg", "/image3.jpeg", "/image4.jpeg", "/image5.jpeg", "/image6.jpeg", "/image7.jpeg", "/image8.jpeg", "/image9.jpeg",]}/>
+        </Section>
+        <Section className="flex max-sm:flex-col items-center justify-center space-y-4 gap-8 md:gap-20">
+          <FadeWrapper>
+            <div className="rounded-full overflow-hidden border-4 border-white shadow-lg size-72">
+              <Image
+                src="/map.png"
+                alt="map"
+                width={288}
+                height={288}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </FadeWrapper>
+          <div className="w-full space-y-6">
+            <FadeWrapper>
+              <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
+                Dove <span className="text-highlight">siamo</span>.
+              </h2>
+            </FadeWrapper>
+            <FadeWrapper delay={150}>
+              <p className="text-primary">
+                I founded Design &amp; Code which is a global community with a mission to connect designers and
+                developers
+                to create a happy community eager to learn, innovate and grow together. We welcome all designers and
+                developers: beginners, intermediates, and experts willing to learn together. We encourage sharing
+                resources and learning experiences, organizing events, and providing feedback for our members to grow
+                as
+                they learn.
+              </p>
+            </FadeWrapper>
+            <FadeWrapper delay={150}>
+              <Link
+                className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-highlight text-white hover:bg-highlight/90 px-8 py-3"
+                target="_blank"
+                href="https://www.google.com/maps/place/Micelli+Simonetta+%26+Vignati+Barbara+S.n.c./@45.5983375,8.9120835,17z/data=!3m1!4b1!4m6!3m5!1s0x47868da67bb7b1a3:0x197b2106be9ab4b7!8m2!3d45.5983375!4d8.9146584!16s%2Fg%2F1tcz75tj"
+              >
+                Indicazioni
+              </Link>
+            </FadeWrapper>
+          </div>
+        </Section>
+      </motion.div>
+      <Footer/>
+    </main>
+  )
 }
