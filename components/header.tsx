@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import {Button} from "@/components/ui/button";
+import React from "react";
+import {ChevronRight} from "lucide-react";
 
 const navItems = [
   { label: "Servizi", href: "#servizi" },
@@ -34,7 +37,14 @@ export function Header(){
           })}
         </ul>
         <div className="flex items-center justify-center gap-2">
-
+          <Link
+            className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi bg-transparent px-3 py-1"
+            href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
+            target="_blank"
+          >
+            Prenota
+            <ChevronRight className="size-4 ml-1"/>
+          </Link>
         </div>
       </nav>
     </header>
