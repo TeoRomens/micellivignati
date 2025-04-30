@@ -15,6 +15,7 @@ import ServicesSwiper from "@/components/services";
 import Image from "next/image";
 import {Gallery} from "@/components/gallery";
 import {AuroraBackground} from "@/components/ui/aurora-background";
+import {cn} from "@/lib/utils";
 
 export default function Page() {
   useActivePanel();
@@ -116,57 +117,46 @@ export default function Page() {
           id="valori"
           className="flex flex-col-reverse md:flex-row gap-8 md:gap-20"
         >
-          <div className="grid grid-cols-1 grid-rows-[masonry] gap-4 sm:grid-cols-2 max-w-xl">
-            <FadeWrapper delay={0}>
-              <div className="rounded-3xl border border-muted p-6 h-full w-full even:mt-14 bg-white">
-                <Scissors className="mb-2 size-5 text-highlight"/>
-                <h5 className="mb-2 font-melodrama font-medium text-2xl">
-                  Passione Autentica
-                </h5>
-                <p className="text-secondary">
-                  Ogni gesto nasce dall’amore per l’hairstyling. Ci appassiona far emergere la bellezza di chi si affida
-                  a noi.
-                </p>
-              </div>
-            </FadeWrapper>
-            <FadeWrapper delay={150}>
-              <div className="rounded-3xl border border-muted p-6 h-full w-full even:mt-14 bg-white">
-                <Scissors className="mb-2 size-5 text-highlight"/>
-                <h5 className="mb-2 font-melodrama font-medium text-2xl">
-                  Dedizione Totale
-                </h5>
-                <p className="text-secondary">
-                  Ogni cliente è unico: lo accogliamo con attenzione e cura, offrendo un’esperienza personalizzata e
-                  impeccabile.
-                </p>
-              </div>
-            </FadeWrapper>
-            <FadeWrapper delay={300}>
-              <div className="rounded-3xl border border-muted p-6 h-full w-full even:mt-14 bg-white">
-                <Scissors className="mb-2 size-5 text-highlight"/>
-                <h5 className="mb-2 font-melodrama font-medium text-2xl">
-                  Cura e Amore
-                </h5>
-                <p className="text-secondary">
-                  Ci sta a cuore farvi sentire bene, dentro e fuori. Ogni servizio è un gesto di attenzione e rispetto
-                  verso di voi.
-                </p>
-              </div>
-            </FadeWrapper>
-            <FadeWrapper delay={450}>
-              <div className="rounded-3xl border border-muted p-6 h-full w-full even:mt-14 bg-white">
-                <Scissors className="mb-2 size-5 text-highlight"/>
-                <h5 className="mb-2 font-melodrama font-medium text-2xl">
-                  Stile con Identità
-                </h5>
-                <p className="text-secondary">
-                  Esaltiamo la tua unicità con uno stile che ti rappresenta davvero. Perché sentirsi sé stessi è la vera
-                  bellezza.
-                </p>
-              </div>
-            </FadeWrapper>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-xl w-full">
+            {[
+              {
+                title: "Passione Autentica",
+                description:
+                  "Ogni gesto nasce dall’amore per l’hairstyling. Ci appassiona far emergere la bellezza di chi si affida a noi.",
+                delay: 0,
+              },
+              {
+                title: "Dedizione Totale",
+                description:
+                  "Ogni cliente è unico: lo accogliamo con attenzione e cura, offrendo un’esperienza personalizzata e impeccabile.",
+                delay: 150,
+              },
+              {
+                title: "Cura e Amore",
+                description:
+                  "Ci sta a cuore farvi sentire bene, dentro e fuori. Ogni servizio è un gesto di attenzione e rispetto verso di voi.",
+                delay: 300,
+              },
+              {
+                title: "Stile con Identità",
+                description:
+                  "Esaltiamo la tua unicità con uno stile che ti rappresenta davvero. Perché sentirsi sé stessi è la vera bellezza.",
+                delay: 450,
+              },
+            ].map(({ title, description, delay }, idx) => (
+              <FadeWrapper delay={delay} key={title}>
+                <div className="rounded-3xl border border-muted p-6 h-full w-full bg-white">
+                  <Scissors className="mb-2 size-5 text-highlight" />
+                  <h5 className="mb-2 font-melodrama font-medium text-2xl">
+                    {title}
+                  </h5>
+                  <p className="text-secondary">{description}</p>
+                </div>
+              </FadeWrapper>
+            ))}
           </div>
-          <div className="w-full space-y-6">
+
+          <div className="w-full md:w-1/2 space-y-6">
             <FadeWrapper>
               <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
                 I Nostri <span className="text-highlight">Valori</span>.
@@ -174,10 +164,7 @@ export default function Page() {
             </FadeWrapper>
             <FadeWrapper delay={150}>
               <p className="text-primary">
-                Il nostro lavoro è dedicato a esaltare e valorizzare ogni persona con un taglio unico e su misura,
-                secondo lo stile e le forme del viso. Non ci limitiamo a eseguire un taglio o una piega, ma mettiamo la
-                nostra passione in ogni cliente. Lo facciamo con amore per questo mestiere, forti di anni di esperienza
-                e sempre alla ricerca della perfezione in ogni dettaglio.
+                Il nostro lavoro è dedicato a esaltare e valorizzare ogni persona con un taglio unico e su misura, secondo lo stile e le forme del viso. Non ci limitiamo a eseguire un taglio o una piega, ma mettiamo la nostra passione in ogni cliente. Lo facciamo con amore per questo mestiere, forti di anni di esperienza e sempre alla ricerca della perfezione in ogni dettaglio.
               </p>
             </FadeWrapper>
             <FadeWrapper delay={150}>

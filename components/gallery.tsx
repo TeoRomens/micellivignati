@@ -15,7 +15,7 @@ export const Gallery = ({
           <div key={idx}>
             <img
               src={elem}
-              className="h-full aspect-square object-cover object-center rounded-lg"
+              className="aspect-square object-cover object-center rounded-lg"
               alt={`thumbnail-${idx}`}
             />
           </div>
