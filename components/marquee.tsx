@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
-import { ComponentPropsWithoutRef } from "react";
-import Image from "next/image";
+import React, { ComponentPropsWithoutRef } from "react";
+import { RiStarFill } from "@remixicon/react"
+import {User} from "lucide-react";
 
 interface MarqueeProps extends ComponentPropsWithoutRef<"div"> {
   /**
@@ -75,40 +76,28 @@ export function Marquee({
 
 const reviews = [
   {
-    name: "Jack",
-    username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
-    img: "/images/avatar.jpg",
+    name: "Ivan",
+    body: "Si distinguono sopratutto per la disponibilità, la professionalità, l'esperienza e la bravura Simona e Barbara. Offrono un servizio completo in tutti settori dando consigli e professionalità!",
   },
   {
-    name: "Jill",
-    username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
-    img: "/images/avatar.jpg",
+    name: "Federica",
+    body: "Ambiente raccolto e pulito. Le titolari del negozio sono davvero competenti e gentilissime. Ve lo consiglio, provate per credere 👌",
   },
   {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "/images/avatar.jpg",
+    name: "Patrizia",
+    body: "Barbara bravissima nel suo lavoro, poi è cordiale, simpatica e sempre pronta a rispondere ad ogni domanda.",
   },
   {
-    name: "Jane",
-    username: "@jane",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "/images/avatar.jpg",
+    name: "Alessandro",
+    body: "Precisione, cura e ascolto. Hanno saputo valorizzare il mio stile personale. Una garanzia!",
   },
   {
-    name: "Jenny",
-    username: "@jenny",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "/images/avatar.jpg",
+    name: "Elena",
+    body: "Dal colore al taglio, tutto è stato perfetto. Si vede la passione che mettono in quello che fanno.",
   },
   {
-    name: "James",
-    username: "@james",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "/images/avatar.jpg",
+    name: "Marco",
+    body: "Ambiente accogliente e professionisti veri. È diventato il mio salone di fiducia.",
   },
 ];
 
@@ -116,14 +105,10 @@ const firstRow = reviews.slice(0, reviews.length / 2);
 const secondRow = reviews.slice(reviews.length / 2);
 
 const ReviewCard = ({
-                      img,
                       name,
-                      username,
                       body,
                     }: {
-  img: string;
   name: string;
-  username: string;
   body: string;
 }) => {
   return (
@@ -137,12 +122,23 @@ const ReviewCard = ({
       )}
     >
       <div className="flex flex-row items-center gap-2">
-        <Image className="rounded-full" width="32" height="32" alt="" src={img} />
+        <div className="flex items-center justify-center bg-white border border-muted rounded-full w-8 h-8">
+          <User className="text-highlight" size={20} />
+        </div>
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium dark:text-white">
             {name}
           </figcaption>
-          <p className="text-xs font-medium dark:text-white/40">{username}</p>
+          <span
+            className="inline-flex items-center text-yellow-500"
+            aria-hidden="true"
+          >
+            <RiStarFill size={12} />
+            <RiStarFill size={12} />
+            <RiStarFill size={12} />
+            <RiStarFill size={12} />
+            <RiStarFill size={12} />
+          </span>
         </div>
       </div>
       <blockquote className="mt-2 text-sm">{body}</blockquote>
@@ -154,13 +150,13 @@ export function ReviewCarousel() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
       <Marquee className="[--duration:60s]">
-        {firstRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
+        {firstRow.map((review, index) => (
+          <ReviewCard key={`rev_${index}`} {...review} />
         ))}
       </Marquee>
       <Marquee reverse className="[--duration:60s]">
-        {secondRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
+        {secondRow.map((review, index) => (
+          <ReviewCard key={`rev_${index}`} {...review} />
         ))}
       </Marquee>
     </div>

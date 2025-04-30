@@ -2,11 +2,12 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Servizi", href: "/" },
-  { label: "Squadra", href: "/" },
-  { label: "Reviews", href: "/" },
-  { label: "Galleria", href: "/" },
+  { label: "Servizi", href: "#servizi" },
+  { label: "Valori", href: "#valori" },
+  { label: "Squadra", href: "#squadra" },
+  { label: "Reviews", href: "#reviews" },
+  { label: "Galleria", href: "#galleria" },
+  { label: "Info", href: "#info" },
 ];
 
 export function Header(){
@@ -19,7 +20,7 @@ export function Header(){
         <Link className="font-melodrama text-2xl font-medium sm:text-xl" href="/">
           MV
         </Link>
-        <ul className="gap-6 text-sm flex font-satoshi">
+        <ul className="hidden sm:flex gap-6 text-sm font-satoshi">
           {navItems.map(({ label, href }) => {
             return (
               <li key={label} className="group relative flex items-center gap-2 hover:font-semibold transition-all duration-200">

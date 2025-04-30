@@ -6,8 +6,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.7",
     "@radix-ui/react-dropdown-menu": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
+    "@remixicon/react": "^4.6.0",
     "aos": "^2.3.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -26,6 +28,7 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-use-measure": "^1.0.3",
+    "remixicon": "^4.6.0",
     "sonner": "^1.7.4",
     "spdy-transport": "^3.0.0",
     "swiper": "^11.2.6",

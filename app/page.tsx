@@ -14,6 +14,7 @@ import {Footer} from "@/components/footer";
 import ServicesSwiper from "@/components/services";
 import Image from "next/image";
 import {Gallery} from "@/components/gallery";
+import {AuroraBackground} from "@/components/ui/aurora-background";
 
 export default function Page() {
   useActivePanel();
@@ -25,6 +26,8 @@ export default function Page() {
 
   return (
     <main className="grow">
+      <AuroraBackground/>
+
       <Header/>
       <motion.div
         className="relative flex w-full flex-col justify-center"
@@ -81,7 +84,8 @@ export default function Page() {
             <div className="mt-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
               <Link
                 className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-highlight text-white hover:bg-highlight/90 px-8 py-3"
-                href="/"
+                href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
+                target="_blank"
               >
                 Prenota un appuntamento
               </Link>
@@ -89,6 +93,7 @@ export default function Page() {
           </FadeWrapper>
         </Section>
         <Section
+          id="servizi"
           className="flex flex-col items-center justify-center min-h-screen"
           dataColor="highlight"
         >
@@ -108,49 +113,55 @@ export default function Page() {
           <ServicesSwiper/>
         </Section>
         <Section
-          className="flex flex-col-reverse md:flex-row gap-8 md:gap-20">
-          <div className="grid grid-cols-1 grid-rows-[masonry] gap-4 sm:grid-cols-2">
+          id="valori"
+          className="flex flex-col-reverse md:flex-row gap-8 md:gap-20"
+        >
+          <div className="grid grid-cols-1 grid-rows-[masonry] gap-4 sm:grid-cols-2 max-w-xl">
             <FadeWrapper delay={0}>
-              <div className="rounded-3xl border border-muted p-6 h-fit w-full even:mt-14 bg-white">
+              <div className="rounded-3xl border border-muted p-6 h-full w-full even:mt-14 bg-white">
                 <Scissors className="mb-2 size-5 text-highlight"/>
                 <h5 className="mb-2 font-melodrama font-medium text-2xl">
-                  Mentoring
+                  Passione Autentica
                 </h5>
                 <p className="text-secondary">
-                  Get connected with a mentor that will help you pave your career path.
+                  Ogni gesto nasce dall’amore per l’hairstyling. Ci appassiona far emergere la bellezza di chi si affida
+                  a noi.
                 </p>
               </div>
             </FadeWrapper>
             <FadeWrapper delay={150}>
-              <div className="rounded-3xl border border-muted p-6 h-fit w-full even:mt-14 bg-white">
+              <div className="rounded-3xl border border-muted p-6 h-full w-full even:mt-14 bg-white">
                 <Scissors className="mb-2 size-5 text-highlight"/>
                 <h5 className="mb-2 font-melodrama font-medium text-2xl">
-                  Mentoring
+                  Dedizione Totale
                 </h5>
                 <p className="text-secondary">
-                  Get connected with a mentor that will help you pave your career path.
+                  Ogni cliente è unico: lo accogliamo con attenzione e cura, offrendo un’esperienza personalizzata e
+                  impeccabile.
                 </p>
               </div>
             </FadeWrapper>
             <FadeWrapper delay={300}>
-              <div className="rounded-3xl border border-muted p-6 h-fit w-full even:mt-14 bg-white">
+              <div className="rounded-3xl border border-muted p-6 h-full w-full even:mt-14 bg-white">
                 <Scissors className="mb-2 size-5 text-highlight"/>
                 <h5 className="mb-2 font-melodrama font-medium text-2xl">
-                  Mentoring
+                  Cura e Amore
                 </h5>
                 <p className="text-secondary">
-                  Get connected with a mentor that will help you pave your career path.
+                  Ci sta a cuore farvi sentire bene, dentro e fuori. Ogni servizio è un gesto di attenzione e rispetto
+                  verso di voi.
                 </p>
               </div>
             </FadeWrapper>
             <FadeWrapper delay={450}>
-              <div className="rounded-3xl border border-muted p-6 h-fit w-full even:mt-14 bg-white">
+              <div className="rounded-3xl border border-muted p-6 h-full w-full even:mt-14 bg-white">
                 <Scissors className="mb-2 size-5 text-highlight"/>
                 <h5 className="mb-2 font-melodrama font-medium text-2xl">
-                  Mentoring
+                  Stile con Identità
                 </h5>
                 <p className="text-secondary">
-                  Get connected with a mentor that will help you pave your career path.
+                  Esaltiamo la tua unicità con uno stile che ti rappresenta davvero. Perché sentirsi sé stessi è la vera
+                  bellezza.
                 </p>
               </div>
             </FadeWrapper>
@@ -163,19 +174,17 @@ export default function Page() {
             </FadeWrapper>
             <FadeWrapper delay={150}>
               <p className="text-primary">
-                I founded Design &amp; Code which is a global community with a mission to connect designers and
-                developers
-                to create a happy community eager to learn, innovate and grow together. We welcome all designers and
-                developers: beginners, intermediates, and experts willing to learn together. We encourage sharing
-                resources and learning experiences, organizing events, and providing feedback for our members to grow
-                as
-                they learn.
+                Il nostro lavoro è dedicato a esaltare e valorizzare ogni persona con un taglio unico e su misura,
+                secondo lo stile e le forme del viso. Non ci limitiamo a eseguire un taglio o una piega, ma mettiamo la
+                nostra passione in ogni cliente. Lo facciamo con amore per questo mestiere, forti di anni di esperienza
+                e sempre alla ricerca della perfezione in ogni dettaglio.
               </p>
             </FadeWrapper>
             <FadeWrapper delay={150}>
               <Link
                 className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-highlight text-white hover:bg-highlight/90 px-8 py-3"
-                href="/"
+                href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
+                target="_blank"
               >
                 Prenota un appuntamento
               </Link>
@@ -183,12 +192,16 @@ export default function Page() {
           </div>
         </Section>
         <Section
+          id="squadra"
           className="flex flex-col md:flex-row gap-8 md:gap-20"
           dataColor="highlight"
         >
           <TeamDiv/>
         </Section>
-        <Section className="flex flex-col items-center justify-center space-y-8">
+        <Section
+          id="reviews"
+          className="flex flex-col items-center justify-center space-y-8"
+        >
           <FadeWrapper>
             <div className="mb-4 flex w-fit items-center gap-2">
               <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
@@ -199,20 +212,35 @@ export default function Page() {
           <ReviewCarousel/>
         </Section>
         <Section
+          id="galleria"
           className="flex flex-col items-center justify-center space-y-8"
           dataColor="highlight"
         >
           <FadeWrapper>
-            <div className="mb-4 flex w-fit items-center gap-2">
+            <div className="flex w-fit items-center gap-2">
               <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
                 Gallery <span className="text-highlight">.</span>
               </h2>
             </div>
           </FadeWrapper>
           <Gallery
-            images={["/image1.jpeg", "/image2.jpeg", "/image3.jpeg", "/image4.jpeg", "/image5.jpeg", "/image6.jpeg", "/image7.jpeg", "/image8.jpeg", "/image9.jpeg",]}/>
+            images={[
+              "/image1.jpeg",
+              "/image2.jpeg",
+              "/image3.jpeg",
+              "/image4.jpeg",
+              "/image5.jpeg",
+              "/image6.jpeg",
+              "/image7.jpeg",
+              "/image8.jpeg",
+              "/image9.jpeg",
+            ]}
+          />
         </Section>
-        <Section className="flex max-sm:flex-col items-center justify-center space-y-4 gap-8 md:gap-20">
+        <Section
+          id="info"
+          className="flex max-sm:flex-col items-center justify-center space-y-4 gap-8 md:gap-20"
+        >
           <FadeWrapper>
             <div className="rounded-full overflow-hidden border-4 border-white shadow-lg size-72">
               <Image
@@ -231,17 +259,23 @@ export default function Page() {
               </h2>
             </FadeWrapper>
             <FadeWrapper delay={150}>
-              <p className="text-primary">
-                I founded Design &amp; Code which is a global community with a mission to connect designers and
-                developers
-                to create a happy community eager to learn, innovate and grow together. We welcome all designers and
-                developers: beginners, intermediates, and experts willing to learn together. We encourage sharing
-                resources and learning experiences, organizing events, and providing feedback for our members to grow
-                as
-                they learn.
-              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-primary">
+                <div>
+                  <h4 className="text-lg font-semibold mb-1">Indirizzo</h4>
+                  <p>Via Della Vittoria 27<br/>20025 Legnano, MI (IT)</p>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-1">Orari di Apertura</h4>
+                  <p>
+                    Lunendì: Chiuso<br/>
+                    Mar–Ven: 09:00–19:00<br/>
+                    Sabato: 09:00–19:00<br/>
+                    Domenica: Chiuso
+                  </p>
+                </div>
+              </div>
             </FadeWrapper>
-            <FadeWrapper delay={150}>
+            <FadeWrapper delay={300}>
               <Link
                 className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-highlight text-white hover:bg-highlight/90 px-8 py-3"
                 target="_blank"
@@ -253,6 +287,7 @@ export default function Page() {
           </div>
         </Section>
       </motion.div>
+
       <Footer/>
     </main>
   )
