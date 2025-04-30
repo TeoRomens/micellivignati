@@ -13,7 +13,7 @@ export const Gallery = ({
     <div className={cn("w-full", className)}>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-10 max-w-5xl mx-auto py-4 px-10">
         {images.map((elem, idx) => (
-          <FadeWrapper key={idx}>
+          <FadeWrapper key={idx} delay={300}>
             <img
               src={elem}
               className="aspect-square object-cover object-center rounded-lg"
