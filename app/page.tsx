@@ -15,7 +15,6 @@ import ServicesSwiper from "@/components/services";
 import Image from "next/image";
 import {Gallery} from "@/components/gallery";
 import {AuroraBackground} from "@/components/ui/aurora-background";
-import {cn} from "@/lib/utils";
 
 export default function Page() {
   useActivePanel();
@@ -85,7 +84,7 @@ export default function Page() {
             <div className="mt-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
               <Link
                 className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-highlight text-white hover:bg-highlight/90 px-8 py-3"
-                href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
+                href="https://flowcal-five.vercel.app/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
                 target="_blank"
               >
                 Prenota un appuntamento
@@ -170,7 +169,7 @@ export default function Page() {
             <FadeWrapper delay={150}>
               <Link
                 className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-highlight text-white hover:bg-highlight/90 px-8 py-3"
-                href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
+                href="https://flowcal-five.vercel.app/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
                 target="_blank"
               >
                 Prenota un appuntamento
