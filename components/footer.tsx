@@ -14,7 +14,7 @@ export function Footer() {
           </h2>
         </FadeWrapper>
         <FadeWrapper delay={300}>
-          <Link href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1" target="_blank">
+          <Link href="https://flowcal-five.vercel.app/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1" target="_blank">
             <button
               className="w-fit items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold transition-all
                 bg-white text-primary hover:bg-white/80 px-8 py-3 m-auto block cursor-pointer"

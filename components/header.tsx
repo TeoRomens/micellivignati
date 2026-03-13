@@ -39,7 +39,7 @@ export function Header(){
         <div className="flex items-center justify-center gap-2">
           <Link
             className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi bg-transparent px-3 py-1"
-            href="https://flowcal.it/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
+            href="https://flowcal-five.vercel.app/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
             target="_blank"
           >
             Prenota
