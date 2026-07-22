@@ -113,6 +113,12 @@
     --color-highlight: var(--highlight);
     --color-select: var(--select);
 
+    --color-violet-primary: #6E4FF6;
+    --color-lavender-soft: #C8B6FF;
+    --color-blush-pink: #F7D6E6;
+    --color-off-white: #FCFAFD;
+    --color-dark-text: #222222;
+
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
 
