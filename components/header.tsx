@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import React from "react";
 import {ChevronRight} from "lucide-react";
+import {BOOKING_URL} from "@/lib/constants";
 
 const navItems = [
   { label: "Servizi", href: "#servizi" },
@@ -39,7 +40,7 @@ export function Header(){
         <div className="flex items-center justify-center gap-2">
           <Link
             className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi bg-transparent px-3 py-1"
-            href="https://flowcal-five.vercel.app/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1"
+            href={BOOKING_URL}
             target="_blank"
           >
             Prenota

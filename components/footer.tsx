@@ -2,6 +2,7 @@ import {FadeWrapper} from "@/components/fade-wrapper";
 import Link from "next/link";
 import {Instagram, Mail} from "lucide-react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {BOOKING_URL} from "@/lib/constants";
 
 export function Footer() {
   return (
@@ -14,7 +15,7 @@ export function Footer() {
           </h2>
         </FadeWrapper>
         <FadeWrapper delay={300}>
-          <Link href="https://flowcal-five.vercel.app/book/user_2uwgJYugSGeo9GTWdBivMRaTRp1" target="_blank">
+          <Link href={BOOKING_URL} target="_blank">
             <button
               className="w-fit items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold transition-all
                 bg-white text-primary hover:bg-white/80 px-8 py-3 m-auto block cursor-pointer"

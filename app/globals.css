@@ -165,13 +165,11 @@
 }
 
 body, html {
-    height: 100dvh;
     min-height: 100vh;
     width: 100%;
     font-family: var(--font-satoshi), sans-serif;
     font-weight: 400;
     color: var(--primary);
-    scrollbar-gutter: stable
 }
 
 body:after, body:before {

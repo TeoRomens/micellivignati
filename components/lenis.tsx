@@ -6,7 +6,7 @@ import type {LenisProps as ReactLenisProps, LenisRef} from "lenis/dist/lenis-rea
 import {ReactLenis, useLenis} from "lenis/dist/lenis-react";
 import {useEffect, useRef} from "react";
 import {useTempus} from "tempus/dist/tempus-react";
-import {cancelFrame, frame} from "motion-dom";
+import {cancelFrame, frame} from "motion";
 
 interface LenisProps extends Omit<ReactLenisProps, "ref"> {
   root: boolean;
@@ -17,9 +17,12 @@ export function Lenis({root, options}: LenisProps) {
   const lenisRef = useRef<LenisRef>(null);
   const lenis = useLenis();
 
-  useTempus((time: number) => {
+  useTempus((state: any) => {
     if (lenisRef.current?.lenis) {
-      lenisRef.current.lenis.raf(time);
+      const time = typeof state === "number" ? state : state?.time;
+      if (typeof time === "number") {
+        lenisRef.current.lenis.raf(time);
+      }
     }
   });
 

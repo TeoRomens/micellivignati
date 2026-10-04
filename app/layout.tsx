@@ -28,19 +28,21 @@ const melodrama = localFont({
   variable: "--font-melodrama"
 });
 
+import { FlyerModal } from "@/components/flyer-modal";
+
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="it" suppressHydrationWarning>
     <AosWrapper>
       <body className={`${satoshi.variable} ${melodrama.variable} bg-background antialiased transition-colors duration-400 ease-in-out`}>
-      <Lenis root/>
-      <div className="relative flex flex-col h-full min-h-dvh font-satoshi overflow-hidden supports-[overflow:clip]:overflow-clip">
+      <div className="relative flex flex-col h-full min-h-dvh font-satoshi overflow-x-clip scroll-smooth">
           {children}
       </div>
+      <FlyerModal />
       <Sonner richColors/>
       </body>
     </AosWrapper>

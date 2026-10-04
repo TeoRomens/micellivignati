@@ -35,14 +35,14 @@ export function GalleryV2() {
   };
 
   return (
-    <section id="galleria" className="py-24 px-4 sm:px-8 bg-[#FCFAFD] relative">
+    <section id="galleria" className="py-24 px-4 sm:px-8 bg-off-white relative">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
-          <h2 className="font-melodrama font-semibold text-4xl sm:text-5xl text-[#222222]">
-            Galleria delle <span className="text-[#6E4FF6]">Creazioni</span>
+          <h2 className="font-melodrama font-semibold text-4xl sm:text-5xl text-dark-text">
+            Galleria delle <span className="text-violet-primary">Creazioni</span>
           </h2>
-          <p className="font-satoshi text-base text-[#222222]/75">
+          <p className="font-satoshi text-base text-dark-text/75">
             Sfoglia alcuni dei look, tagli e sfumature realizzati nel nostro salone. Clicca su un'immagine per ingrandirla.
           </p>
         </div>
@@ -65,7 +65,7 @@ export function GalleryV2() {
                   alt={img.alt}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#6E4FF6]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">

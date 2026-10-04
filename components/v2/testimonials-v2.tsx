@@ -59,10 +59,10 @@ export function TestimonialsV2() {
       <div className="max-w-7xl mx-auto space-y-16 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <h2 className="font-melodrama font-semibold text-4xl sm:text-5xl text-[#222222]">
+          <h2 className="font-melodrama font-semibold text-4xl sm:text-5xl text-dark-text">
             Cosa Dicono di <span className="text-[#6E4FF6]">Noi</span>
           </h2>
-          <p className="font-satoshi text-base text-[#222222]/75">
+          <p className="font-satoshi text-base text-dark-text/75">
             La soddisfazione di chi si affida ogni giorno alla nostra cura è il nostro orgoglio più grande.
           </p>
         </div>
@@ -89,7 +89,7 @@ export function TestimonialsV2() {
                 </div>
 
                 {/* Review Text */}
-                <p className="font-satoshi text-sm text-[#222222]/80 leading-relaxed italic">
+                <p className="font-satoshi text-sm text-dark-text/80 leading-relaxed italic">
                   "{rev.review}"
                 </p>
               </div>
@@ -100,10 +100,10 @@ export function TestimonialsV2() {
                   {rev.name[0]}
                 </div>
                 <div>
-                  <p className="font-melodrama font-semibold text-base text-[#222222]">
+                  <p className="font-melodrama font-semibold text-base text-dark-text">
                     {rev.name}
                   </p>
-                  <p className="font-satoshi text-xs text-[#222222]/60">{rev.role}</p>
+                  <p className="font-satoshi text-xs text-dark-text/60">{rev.role}</p>
                 </div>
               </div>
             </motion.div>
