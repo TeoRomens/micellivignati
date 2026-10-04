@@ -1,96 +1,219 @@
-import React from 'react';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/effect-cards';
-import {FadeWrapper} from "@/components/fade-wrapper";
-import {Brush, Eraser, Scissors, SwatchBook} from "lucide-react";
-import useIsMobile from "@/hooks/useIsMobile";
+"use client";
 
-const services = [
+import React, { useState } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  RiScissors2Line,
+  RiPaletteLine,
+  RiMagicLine,
+  RiScalesLine,
+  RiWaterFlashLine,
+  RiTimeLine,
+  RiCalendarCheckLine,
+} from "@remixicon/react";
+import { BOOKING_URL } from "@/lib/constants";
+
+interface ServiceItem {
+  id: string;
+  name: string;
+  category: "cut" | "color" | "treatment";
+  duration: number; // in mins
+  description: string;
+  icon: React.ElementType;
+}
+
+const servicesData: ServiceItem[] = [
   {
-    id: "1", nome: "Taglio Uomo", durata: 60, Icon: Scissors, price: "17",
-    description: "Taglio su misura per valorizzare il tuo stile e la forma del viso."
+    id: "1",
+    name: "Taglio Uomo",
+    category: "cut",
+    duration: 60,
+    description: "Taglio su misura per valorizzare il tuo stile unico e la forma del viso.",
+    icon: RiScissors2Line,
   },
-
   {
-    id: "2", nome: "Taglio e Piega Donna", durata: 60, Icon: Scissors, price: "49",
-    description: "Un taglio personalizzato e una piega perfetta per esaltare la tua bellezza naturale."
+    id: "2",
+    name: "Taglio e Piega Donna",
+    category: "cut",
+    duration: 60,
+    description: "Un taglio personalizzato e una piega impeccabile per esaltare la tua naturale bellezza.",
+    icon: RiScissors2Line,
   },
-
   {
-    id: "3", nome: "Taglio e Piega Lunga", durata: 120, Icon: Eraser, price: "53",
-    description: "Taglio e styling studiati per dare volume e movimento ai capelli lunghi."
+    id: "3",
+    name: "Taglio e Piega Lunga",
+    category: "cut",
+    duration: 120,
+    description: "Taglio e styling accuratamente studiati per donare movimento e volume ai capelli lunghi.",
+    icon: RiScissors2Line,
   },
-
   {
-    id: "4", nome: "Colore", durata: 120, Icon: Brush, price: "35-50",
-    description: "Colore su misura per illuminare e valorizzare il tuo incarnato e stile."
+    id: "4",
+    name: "Colore",
+    category: "color",
+    duration: 120,
+    description: "Colore sartoriale su misura per illuminare la tua chioma e valorizzare l'incarnato.",
+    icon: RiPaletteLine,
   },
-
   {
-    id: "5", nome: "Permanente", durata: 180, Icon: SwatchBook, price: "45-55",
-    description: "Ricci definiti e naturali per un look sempre perfetto e pieno di carattere."
+    id: "5",
+    name: "Permanente",
+    category: "treatment",
+    duration: 180,
+    description: "Ricci definiti, elastici e naturali per un look ricco di volume e personalità.",
+    icon: RiWaterFlashLine,
   },
-
   {
-    id: "6", nome: "Colpi di sole", durata: 240, Icon: Brush, price: "55-70",
-    description: "Schiariture delicate per un effetto luminoso e naturale, studiato su di te."
+    id: "6",
+    name: "Colpi di Sole",
+    category: "color",
+    duration: 240,
+    description: "Schiariture delicate per un effetto tridimensionale luminoso e naturale.",
+    icon: RiScalesLine,
   },
-
   {
-    id: "7", nome: "Stiratura classica", durata: 120, Icon: Brush, price: "45-55",
-    description: "Liscio impeccabile e duraturo, senza stressare il capello."
+    id: "7",
+    name: "Stiratura Classica",
+    category: "treatment",
+    duration: 120,
+    description: "Liscio impeccabile, morbido e duraturo senza stressare la fibra capillare.",
+    icon: RiMagicLine,
   },
-
   {
-    id: "8", nome: "Lissage", durata: 120, Icon: Brush, price: "65",
-    description: "Trattamento lisciante avanzato per capelli setosi e disciplinati a lungo."
+    id: "8",
+    name: "Lissage",
+    category: "treatment",
+    duration: 120,
+    description: "Trattamento lisciante avanzato per capelli straordinariamente setosi e disciplinati.",
+    icon: RiScalesLine,
   },
-
   {
-    id: "9", nome: "Piega", durata: 60, Icon: Brush, price: "24",
-    description: "Piega su misura per un look elegante e definito in ogni occasione."
+    id: "9",
+    name: "Piega",
+    category: "cut",
+    duration: 60,
+    description: "Piega su misura per un look sempre impeccabile, brillante e definito.",
+    icon: RiScissors2Line,
   },
-
   {
-    id: "10", nome: "Piega Lunga", durata: 90, Icon: Brush, price: "32",
-    description: "Styling perfetto per capelli lunghi, con volume e movimento naturale."
+    id: "10",
+    name: "Piega Lunga",
+    category: "cut",
+    duration: 90,
+    description: "Styling professionale per capelli lunghi con volume setoso e movimento morbido.",
+    icon: RiScissors2Line,
   },
-
   {
-    id: "11", nome: "Toner", durata: 60, Icon: Brush, price: "10",
-    description: "Tonalizzazione personalizzata per riflessi intensi e luminosi."
-  }
+    id: "11",
+    name: "Toner",
+    category: "color",
+    duration: 60,
+    description: "Tonalizzazione personalizzata per eliminare toni indesiderati e riattivare i riflessi.",
+    icon: RiPaletteLine,
+  },
 ];
 
+const categories = [
+  { id: "all", label: "Tutti i Servizi" },
+  { id: "cut", label: "Taglio & Piega" },
+  { id: "color", label: "Colore & Schiariture" },
+  { id: "treatment", label: "Trattamenti & Lissage" },
+];
 
-export default function ServicesSwiper() {
-  const isMobile = useIsMobile();
+export function Services() {
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+
+  const filteredServices =
+    activeCategory === "all"
+      ? servicesData
+      : servicesData.filter((s) => s.category === activeCategory);
 
   return (
-      <Swiper
-        slidesPerView={isMobile ? 1 : 3}
-        grabCursor={true}
-        spaceBetween={24}
-        autoplay={true}
-        className="w-full h-[240px]"
-      >
-        {services.map((service, index) => (
-          <SwiperSlide
-            key={index}
-            className="bg-white border border-muted rounded-xl shadow-md p-6"
-          >
-            <div className="h-fit w-full even:mt-14">
-              <Scissors className="mb-2 size-5 text-highlight"/>
-              <h5 className="mb-2 font-melodrama text-primary font-medium text-2xl">
-                {service.nome}
-              </h5>
-              <p className="text-secondary font-satoshi font-normal text-sm">
-                {service.description}
-              </p>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+    <section id="servizi" className="py-24 px-4 sm:px-8 bg-[#FCFAFD] relative">
+      <div className="max-w-7xl mx-auto space-y-12">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+
+          <h2 className="font-melodrama font-semibold text-4xl sm:text-5xl text-dark-text">
+            Esperienze di <span className="text-[#6E4FF6]">Bellezza Su Misura</span>
+          </h2>
+
+          <p className="font-satoshi text-base text-dark-text/75 max-w-xl mx-auto">
+            Trasforma il tuo look con uno stile elegante e personalizzato. Scopri i nostri trattamenti formulati per esaltare il tuo benessere.
+          </p>
+
+          {/* Category Tabs */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-satoshi font-medium transition-all duration-300 ${
+                  activeCategory === cat.id
+                    ? "bg-[#6E4FF6] text-white shadow-md shadow-[#6E4FF6]/25 scale-105"
+                    : "bg-white text-dark-text/80 border border-[#6E4FF6]/15 hover:bg-[#F7D6E6]/40"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Services Cards Grid */}
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredServices.map((service) => {
+              const IconComponent = service.icon;
+              return (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                  key={service.id}
+                  className="bg-white rounded-3xl p-7 border border-[#6E4FF6]/10 hover:border-[#6E4FF6]/30 shadow-sm hover:shadow-xl hover:shadow-[#6E4FF6]/10 transition-all duration-300 flex flex-col justify-between group"
+                >
+                  <div className="space-y-4">
+                    {/* Professional Remix Icon directly inline */}
+                    <div className="text-[#6E4FF6] group-hover:scale-110 group-hover:text-[#5b3de3] transition-all duration-300">
+                      <IconComponent className="w-8 h-8" />
+                    </div>
+
+                    {/* Service Title */}
+                    <h3 className="font-melodrama text-2xl font-semibold text-dark-text group-hover:text-[#6E4FF6] transition-colors">
+                      {service.name}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="font-satoshi text-xs sm:text-sm text-dark-text/75 leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+
+                  {/* Bottom row: Duration & Booking CTA (Price removed as requested) */}
+                  <div className="pt-6 mt-6 border-t border-violet-primary/10 flex items-center justify-between">
+                    <Link
+                      href={BOOKING_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#FCFAFD] border border-[#6E4FF6]/20 text-[#6E4FF6] text-xs font-satoshi font-semibold hover:bg-[#6E4FF6] hover:text-white transition-all duration-200"
+                    >
+                      <RiCalendarCheckLine className="w-3.5 h-3.5" />
+                      <span>Prenota Ora</span>
+                    </Link>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
   );
 }

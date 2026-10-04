@@ -1,94 +1,81 @@
-import React, {useState} from 'react';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/effect-cards';
-import {EffectCards} from 'swiper/modules';
-import {FadeWrapper} from "@/components/fade-wrapper";
-import Link from "next/link";
+"use client";
+
+import React from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Scissors, Calendar, Sparkles } from "lucide-react";
+import { BOOKING_URL } from "@/lib/constants";
 
 const teamMembers = [
   {
-    name: 'Barbara Vignati',
-    image: '/barbara.jpeg',
-    description: 'Esperta in colorazioni e trattamenti innovativi, Barbara dà vita ai tuoi desideri di stile.',
+    name: "Barbara Vignati",
+    image: "/barbara.jpeg",
+    bio: "Esperta in colorazioni tridimensionali, colpi di sole e trattamenti innovativi. Barbara trasforma ogni chioma donandole luce, riflessi vibranti e vitalità.",
   },
   {
-    name: 'Simonetta Micelli',
-    image: '/simonetta.jpeg',
-    description: 'Specializzata in tagli che rendono ogni persona unica nel suo stile! Tecnica e creatività!',
+    name: "Simonetta Micelli",
+    image: "/simonetta.jpeg",
+    bio: "Specializzata in tagli sartoriali che valorizzano i tratti del viso e la naturale tessitura del capello. Anni di esperienza e maestria tecnica al tuo servizio.",
   },
 ];
 
-
-export default function TeamDiv() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
+export function Team() {
   return (
-    <>
-      <div className="w-full space-y-6">
-        <FadeWrapper>
-          <h2 className="font-melodrama font-semibold text-4xl md:text-6xl">
-            Il <span className="text-white">Team</span>.
+    <section id="team" className="py-24 px-4 sm:px-8 bg-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-10 right-0 w-96 h-96 bg-[#F7D6E6]/30 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto space-y-16 relative z-10">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <h2 className="font-melodrama font-semibold text-4xl sm:text-5xl text-dark-text">
+            Il Nostro <span className="text-violet-primary">Team d'Eccellenza</span>
           </h2>
-        </FadeWrapper>
-        <FadeWrapper delay={150}>
-          <p className="text-primary-foreground transition-all duration-300 ease-in-out">
-            Ecco il nostro team sempre pronto ad accoglierti.
+          <p className="font-satoshi text-base text-dark-text/75">
+            Mettiamo la nostra passione e l'esperienza di una vita per regalarti il look dei tuoi sogni.
           </p>
-        </FadeWrapper>
-        <FadeWrapper>
-          <h5 className="font-melodrama font-semibold text-xl md:text-3xl">
-            {teamMembers[activeIndex].name.split(" ")[0]} {" "}
-            <span className="text-white">
-              {teamMembers[activeIndex].name.split(" ")[1]}
-            </span>
-          </h5>
-        </FadeWrapper>
-        <FadeWrapper delay={150}>
-          <p className="text-primary-foreground transition-all duration-300 ease-in-out">
-            {teamMembers[activeIndex].description}
-          </p>
-        </FadeWrapper>
-        <FadeWrapper delay={150}>
-          <Link
-            className="inline-flex items-center justify-center rounded-full w-fit text-sm font-satoshi font-medium bg-white text-primary hover:bg-white/90 px-8 py-3"
-            href="/"
-          >
-            Prenota un appuntamento
-          </Link>
-        </FadeWrapper>
-      </div>
-      <div className="grid grid-cols-1 grid-rows-[masonry] gap-4 sm:grid-cols-2">
-        <Swiper
-          effect={'cards'}
-          grabCursor={true}
-          modules={[EffectCards]}
-          className="w-[240px] h-[320px]"
-          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-          initialSlide={activeIndex}
-        >
-          {teamMembers.map((member, index) => (
-            <SwiperSlide
-              key={index}
-              className="bg-white rounded-xl shadow-md p-4"
+        </div>
+
+        {/* Team Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+          {teamMembers.map((member, idx) => (
+            <motion.div
+              key={member.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.15, duration: 0.6 }}
+              className="bg-[#FCFAFD] rounded-3xl p-8 border border-[#6E4FF6]/15 hover:border-[#6E4FF6]/40 shadow-sm hover:shadow-2xl hover:shadow-[#6E4FF6]/10 transition-all duration-300 flex flex-col items-center text-center space-y-6 group"
             >
-              <div className="flex flex-col items-center justify-center h-full w-full text-primary font-melodrama">
-                <Image
-                  src={member.image}
-                  alt="not found"
-                  width={112}
-                  height={112}
-                  className="w-28 h-28 rounded-full object-cover mb-4 border border-white"
-                />
-                <h3 className="text-2xl text-center font-semibold">
-                  {member.name.split(" ")[0]} <br/> {member.name.split(" ")[1]}
+              {/* Profile Image with subtle ring */}
+              <div className="relative w-40 h-40 rounded-full overflow-hidden p-1.5 bg-gradient-to-tr from-[#6E4FF6] to-[#F7D6E6] shadow-xl group-hover:scale-105 transition-transform duration-300">
+                <div className="relative w-full h-full rounded-full overflow-hidden">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="160px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Name & Role */}
+              <div className="space-y-1">
+                <h3 className="font-melodrama text-3xl font-semibold text-dark-text group-hover:text-violet-primary transition-colors">
+                  {member.name}
                 </h3>
               </div>
-            </SwiperSlide>
+
+              {/* Bio */}
+              <p className="font-satoshi text-sm text-dark-text/80 leading-relaxed max-w-sm">
+                {member.bio}
+              </p>
+            </motion.div>
           ))}
-        </Swiper>
+        </div>
       </div>
-    </>
+    </section>
   );
 }
