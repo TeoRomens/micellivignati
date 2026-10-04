@@ -38,13 +38,13 @@ export default function RootLayout({
   return (
     <html lang="it" suppressHydrationWarning>
     <AosWrapper>
-      <body className={`${satoshi.variable} ${melodrama.variable} bg-background antialiased transition-colors duration-400 ease-in-out`}>
-      <div className="relative flex flex-col h-full min-h-dvh font-satoshi overflow-x-clip scroll-smooth">
-          {children}
-      </div>
-      <FlyerModal />
-      <Sonner richColors/>
-      </body>
+      <body className={`${satoshi.variable} ${melodrama.variable} bg-background antialiased transition-colors duration-400 ease-in-out scroll-smooth`}>
+        <div className="relative flex flex-col h-full min-h-dvh font-satoshi overflow-x-clip scroll-smooth">
+            {children}
+        </div>
+        <FlyerModal />
+        <Sonner richColors/>
+        </body>
     </AosWrapper>
     </html>
   );

@@ -1,14 +1,10 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  RiScalesLine,
-  RiCalendarCheckLine,
   RiArrowRightDownLine,
-  RiScissors2Line,
 } from "@remixicon/react";
 import { BOOKING_URL } from "@/lib/constants";
 
@@ -17,7 +13,7 @@ export function Hero() {
     <section className="relative min-h-[88vh] pt-32 pb-16 px-4 sm:px-8 flex items-center justify-center overflow-hidden bg-[#FCFAFD]">
       {/* Background Soft Glow Gradients */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#C8B6FF]/30 via-[#F7D6E6]/40 to-[#6E4FF6]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-10 right-10 w-96 h-96 bg-[#F7D6E6]/40 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-10 right-10 w-96 h-96 bg-blush-pink/40 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-[#C8B6FF]/30 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">

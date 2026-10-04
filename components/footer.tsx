@@ -2,8 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Instagram, Mail, Calendar, Heart } from "lucide-react";
+import { Instagram, Mail, Calendar } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BOOKING_URL } from "@/lib/constants";
 
