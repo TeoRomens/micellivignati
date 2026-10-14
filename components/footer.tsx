@@ -26,7 +26,7 @@ export function Footer() {
                   Micelli & Vignati
                 </span>
                 <span className="text-[10px] tracking-widest uppercase text-[#C8B6FF] font-medium font-satoshi">
-                  Hairstyling Atelier
+                  Hairstyling
                 </span>
               </div>
             </Link>
@@ -54,6 +54,7 @@ export function Footer() {
               <li><a href="#servizi" className="hover:text-[#C8B6FF] transition-colors">Servizi</a></li>
               <li><a href="#perche-noi" className="hover:text-[#C8B6FF] transition-colors">Perché Sceglierci</a></li>
               <li><a href="#galleria" className="hover:text-[#C8B6FF] transition-colors">Galleria</a></li>
+              <li><a href="#intervista" className="hover:text-[#C8B6FF] transition-colors">Intervista</a></li>
               <li><a href="#recensioni" className="hover:text-[#C8B6FF] transition-colors">Recensioni</a></li>
               <li><a href="#team" className="hover:text-[#C8B6FF] transition-colors">Il Team</a></li>
               <li><a href="#prezzi" className="hover:text-[#C8B6FF] transition-colors">Listino Prezzi</a></li>

@@ -7,6 +7,7 @@ import { About } from "@/components/about";
 import { Services } from "@/components/services";
 import { WhyUs } from "@/components/why-us";
 import { Gallery } from "@/components/gallery";
+import { Interview } from "@/components/interview";
 import { BookingCta } from "@/components/booking-cta";
 import { Team } from "@/components/team";
 import { Faq } from "@/components/faq";
@@ -22,6 +23,7 @@ export default function HomePage() {
       <Services />
       <WhyUs />
       <Gallery />
+      <Interview />
       <BookingCta />
       <Team />
       <Faq />

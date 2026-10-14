@@ -11,6 +11,7 @@ const navItems = [
   { label: "Servizi", href: "#servizi" },
   { label: "Perché Noi", href: "#perche-noi" },
   { label: "Galleria", href: "#galleria" },
+  { label: "Intervista", href: "#intervista" },
   { label: "Team", href: "#team" },
   { label: "Faq", href: "#faq" },
   { label: "Contatti", href: "#contatti" },
@@ -39,7 +40,7 @@ export function Header() {
         }`}
       >
         {/* Logo */}
-        <Link href="/public" className="flex items-center gap-2.5 group shrink-0">
+        <Link href="/" className="flex items-center gap-2.5 group shrink-0">
           <div className="w-9 h-9 rounded-full bg-linear-to-tr from-violet-primary to-blush-pink flex items-center justify-center text-white font-melodrama font-bold text-base shadow-sm group-hover:scale-105 transition-transform duration-300">
             MV
           </div>
@@ -97,20 +98,20 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden max-w-7xl mx-auto mt-3 bg-[#FCFAFD]/95 backdrop-blur-xl border border-[#6E4FF6]/20 rounded-3xl p-6 shadow-2xl shadow-[#6E4FF6]/15 flex flex-col gap-2 z-50"
+            className="lg:hidden max-w-7xl mx-auto mt-3 bg-off-white/95 backdrop-blur-xl border border-[#6E4FF6]/20 rounded-3xl p-6 shadow-2xl shadow-[#6E4FF6]/15 flex flex-col gap-2 z-50"
           >
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-satoshi font-medium text-dark-text hover:text-[#6E4FF6] p-2.5 rounded-xl hover:bg-[#F7D6E6]/40 transition-all flex items-center justify-between"
+                className="text-sm font-satoshi font-medium text-dark-text hover:text-violet-primary p-2.5 rounded-xl hover:bg-[#F7D6E6]/40 transition-all flex items-center justify-between"
               >
                 <span>{item.label}</span>
-                <RiArrowRightSLine className="w-4 h-4 text-[#6E4FF6]/60" />
+                <RiArrowRightSLine className="w-4 h-4 text-violet-primary/60" />
               </a>
             ))}
-            <div className="pt-2 border-t border-[#6E4FF6]/10 mt-1">
+            <div className="pt-2 border-t border-violet-primary/10 mt-1">
               <Link
                 href={BOOKING_URL}
                 target="_blank"

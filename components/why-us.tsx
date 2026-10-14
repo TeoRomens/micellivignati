@@ -45,7 +45,7 @@ export function WhyUs() {
             L'Eccellenza che Meriti per la <span className="text-violet-primary">Tua Bellezza</span>
           </h2>
           <p className="font-satoshi text-base text-dark-text/75">
-            Nel nostro atelier ogni dettaglio è pensato per regalarti un'esperienza sartoriale e indimenticabile.
+            Nel nostro salone ogni dettaglio è pensato per regalarti un'esperienza sartoriale e indimenticabile.
           </p>
         </div>
 

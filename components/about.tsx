@@ -38,8 +38,8 @@ export function About() {
   return (
     <section id="about" className="py-24 px-4 sm:px-8 bg-white relative overflow-hidden">
       {/* Soft background accents */}
-      <div className="absolute top-1/2 -right-40 w-96 h-96 bg-[#F7D6E6]/30 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-0 w-80 h-80 bg-[#C8B6FF]/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 -right-40 w-96 h-96 bg-blush-pink/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-0 w-80 h-80 bg-lavender-soft/20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto space-y-20 relative z-10">
         {/* Split Layout: Philosophy & Image */}

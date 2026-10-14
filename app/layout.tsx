@@ -1,10 +1,8 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import {Toaster as Sonner} from "@/components/ui/sonner";
 import React from "react";
 import localFont from "next/font/local";
 import {AosWrapper} from "@/components/aos";
-import {Lenis} from "@/components/lenis";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -43,7 +41,6 @@ export default function RootLayout({
             {children}
         </div>
         <FlyerModal />
-        <Sonner richColors/>
         </body>
     </AosWrapper>
     </html>

@@ -9,7 +9,7 @@ import { BOOKING_URL } from "@/lib/constants";
 export function BookingCta() {
   return (
     <section className="py-20 px-4 sm:px-8 bg-off-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-8xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -23,12 +23,12 @@ export function BookingCta() {
 
           {/* Large Heading */}
           <h2 className="font-melodrama font-bold text-2xl sm:text-3xl lg:text-4xl max-w-3xl leading-tight">
-            Pronta a Rinnovare il Tuo Stile con un Tocco Elegante?
+            Pronta a Rinnovare il Tuo Stile?
           </h2>
 
           {/* Persuasive Subtext */}
           <p className="font-satoshi text-base sm:text-lg text-white/90 max-w-xl leading-relaxed">
-            Seleziona la data e l'orario che preferisci in pochi click. Ti aspettiamo nel nostro atelier a Legnano per prenderci cura di te.
+            Seleziona la data e l'orario che preferisci in pochi click. Ti aspettiamo nel nostro salone a Legnano per prenderci cura di te.
           </p>
 
           {/* CTA Button */}
